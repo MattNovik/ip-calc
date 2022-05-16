@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react"
+import './index.scss';
 
 const InfoPoint = (props) => {
-  const {name,i,k} = props;
-  const [count, setCount] = useState(i); 
-  const [type, setType] = useState(k);
+  const {name,count,type} = props;
+  //const [count, setCount] = useState(i); 
+  //const [type, setType] = useState(k);
+
   return (
     <>
-      <div className="info__element">
-        <p className="info__name">
+      <div className="info-element">
+        <p className="info-element__name">
           {`${name}`}
         </p>
-        <div className="info__wrapper-info">
-          <span className="info__counts">{`${count}`} </span>
-          <span className="info__type">{`${type}`}</span>
+        <div className="info-element__wrapper-info">
+          <span className="info-element__counts">{`${count}`} </span>
+          <span className="info-element__type">{`${type}`}</span>
         </div>
       </div>
     </>

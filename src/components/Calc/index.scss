@@ -1,0 +1,26 @@
+.calc {
+  padding: 60px 135px 0;
+
+  &__name {
+    text-align: left;
+  }
+  
+  &__block {
+    display: flex;
+    flex-direction: column;
+    row-gap: 45px;
+    padding: 44px 70px;
+    border: 1px solid #A3A3A3;
+    border-radius: 10px;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    column-gap: 40px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    color: #000000;
+  }
+}
