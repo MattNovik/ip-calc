@@ -9,14 +9,25 @@ const Calc = () => {
   const [creditSumm, setCreditSumm] = useState("354 000 000");
   const [taxes, setTaxes] = useState("658 000");
   const [income, setIncome] = useState("49 000");
+  const percentList = {
+    "1": 13,
+    "2": 15,
+    "3": 14.5,
+    "4": 12,
+    "5": 11,
+    "6": 16,
+    "7": 10,
+  };
+
   const callFunc = (data) => {
-    const newMonthPay = (((data.realEstateCost-data.downPayment)*(percent/12/100))/(1-(1+(percent/12/100)*(1-data.creditTerm))));
-    const newCreditSumm = (data.realEstateCost-data.downPayment);
-    const newIncome = (Number(newMonthPay)*1.8);
+    let newPercent = percentList[data.goal];
+    let newMonthPay = (((data.realEstateCost-data.downPayment)*(percent/12/100))/(1-(1+(percent/12/100)*(1-data.creditTerm))));
+    let newCreditSumm = (data.realEstateCost-data.downPayment);
+    let newIncome = (Number(newMonthPay)*1.8);
     setCreditSumm(newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
     setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
     setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-
+    setPercent(newPercent);
   }
 
   return (
