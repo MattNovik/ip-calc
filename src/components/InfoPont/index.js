@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import './index.scss';
 
 const InfoPoint = (props) => {
-  const {name,count,type} = props;
+  const {name,count,type,defValue} = props;
   //const [count, setCount] = useState(i); 
   //const [type, setType] = useState(k);
 
@@ -13,7 +13,7 @@ const InfoPoint = (props) => {
           {`${name}`}
         </p>
         <div className="info-element__wrapper-info">
-          <span className="info-element__counts">{`${count}`} </span>
+          <span className="info-element__counts">{count ?? defValue} </span>
           <span className="info-element__type">{`${type}`}</span>
         </div>
       </div>

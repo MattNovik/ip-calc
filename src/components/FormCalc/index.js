@@ -1,25 +1,30 @@
-import React from "react";
-import { TextField } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
 import './index.scss';
-import CalcInput from "../CalcInput";
-import FormInputDropdown from "../SelectInput";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useCookies } from 'react-cookie';
+import FormInputDropdown from "../FormInputDropdown";
+import TextFieldInput from "../TextFieldInput";
 
 const FormCalc = ({onSubmitParent}) => {
-  const { register, handleSubmit, getValues, control } = useForm({mode: 'all'});
+  const { register, handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all'});
   const [mainData, setMainData] = useState({});
+  const [cookies, setCookie] = useCookies([]);
 
-  const onSubmit = (data) => {
-    setMainData(mainData => Object.assign(mainData, data));
-    onSubmitParent(mainData);
-  };
+  const inputValidation = (realEstateCost) => {
+    const values = getValues();
+    if (Number(realEstateCost.replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
+      return false;
+      console.log('false')
+    } else {
+      handleChange();
+      return true;
+    }
+  }
 
-  const handleValidateNumbers = (e) => {
-    setTimeout(() => {
-      const newValueInput = e.target.value.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-      e.target.value = newValueInput;
-    }, 0);
+  function handleCookie(data) {
+    for (let key in data) {
+      setCookie(key, data[key]);
+    }
   }
 
   const handleChange = () => {
@@ -33,45 +38,51 @@ const FormCalc = ({onSubmitParent}) => {
       setMainData(mainData => Object.assign(mainData, values));
       onSubmitParent(mainData);
       console.log(mainData);
-    }, 0);
-  }
-
-  const commonFunction = (e) => {
-    if (e.target.tagName === "SELECT") {
-      e.target.blur();
-    }
-    handleChange();
-    handleValidateNumbers(e);
+      handleCookie(mainData);
+    },0);
   }
    
   return (
-    <form className="calcForm">
+    <form className="calcForm" onChange={handleSubmit(handleChange)} onBlur={handleSubmit(handleChange)}>
       <div className="calcForm__wrapper-box">
-        <FormInputDropdown name="mee" label="Selector" control={control}/>
-        <div className="calcInput">
-          <label className="calcInput__label">Цель кредита</label>
-          <select className="calcInput__select" {...register("goal", {required: true, pattern: {value: "", message: 'error message'}})} defaultValue="1" placeholder={30} onChange={commonFunction} >
-            <option value="1">Квартира в новостройке</option>
-            <option value="2">Квартира на вторичном рынке</option>
-            <option value="3">КупитьДом</option>
-            <option value="4">Построть Дом</option>
-            <option value="5">Купить землю или дачный дом</option>
-            <option value="6">Рефинансирование</option>
-            <option value="7">Наличные под залог жилья</option>
-          </select>
-        </div>
-        <div className="calcInput">
-          <label className="calcInput__label">Стоимость недвижимости</label>
-          <input className="calcInput__input" type="" {...register("realEstateCost", {required: true, pattern: {value: /\B(?=(\d{3})+(?!\d))/g, message: 'error message'} })} placeholder="30 000 000" defaultValue="30 000 000" onKeyDown={commonFunction} />
-        </div>
-        <div className="calcInput">
-          <label className="calcInput__label">Первоначальный взнос</label>
-          <input className="calcInput__input" type="" {...register("downPayment", {required: true, pattern: /[^\d]/g })} placeholder="1 000 000" defaultValue="10 000 000" onKeyDown={commonFunction} />
-        </div>
-        <div className="calcInput">
-          <label className="calcInput__label">Срок кредита</label>
-          <input className="calcInput__input" type="" {...register("creditTerm", {required: true,  pattern: {value: /\B(?=(\d{3})+(?!\d))/g, message: 'error message'} })} placeholder="30" defaultValue="30" onKeyDown={commonFunction} />
-        </div>
+        <FormInputDropdown
+          name="goal"
+          control={control}
+          label="Тип недвижимости"
+          defValue={cookies.goal ?? "1"}
+          helperText="Выберите ваш тип недвижимости"/>
+        <TextFieldInput
+          error={errors.realEstateCost && errors.realEstateCost.type === "validate" && true}
+          control={control}
+          //onCustomChange={handleChange}
+          name="realEstateCost"
+          label="Стоимость недвижимости"
+          ps="руб."
+          defValue={cookies.realEstateCost.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "30 000 000"}
+          rules={{ required: true, validate: inputValidation }}
+          helperText={errors.realEstateCost && errors.realEstateCost.type === "validate" && "Первый взнос не может быть больше"}
+        />
+        <TextFieldInput
+          error={errors.realEstateCost && errors.realEstateCost.type === "validate" && true}
+          control={control}
+          //onCustomChange={handleChange}
+          name="downPayment"
+          label="Первоначальный взнос"
+          ps="руб."
+          defValue={cookies.downPayment.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "10 000 000"}
+          rules={{ required: true, validate: inputValidation }}
+          helperText={errors.realEstateCost && errors.realEstateCost.type === "validate" && "Первый взнос не может быть больше"}
+
+        />
+        <TextFieldInput
+          control={control}
+          //onCustomChange={handleChange}
+          name="creditTerm"
+          label="Срок кредита"
+          ps="мес."
+          defValue={cookies.creditTerm.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "30"}
+          rules={{ required: true }}
+        />
       </div>
     </form>
   );
