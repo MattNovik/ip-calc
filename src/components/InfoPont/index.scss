@@ -3,6 +3,43 @@
   flex-direction: column;
   row-gap: 10px;
 
+  &__hint {
+    position: absolute;
+    width: 140px;
+    height: auto;
+    background-color: lightgray;
+    right: 8px;
+    top: -10px;
+    transform: translate(50%,-100%);
+    padding: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+  }
+
+  &__wrapper-name {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+
+    svg {
+      position: relative;
+      transition: transform 1s ease-in-out;
+    }
+
+    svg:hover {
+      cursor: pointer;
+      transform: rotate(360deg);
+    }
+
+    svg:hover ~ .info-element__hint,
+    svg:focus ~ .info-element__hint {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
   &__name {
     text-align: left;
     font-weight: 400;

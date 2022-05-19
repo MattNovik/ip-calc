@@ -8,7 +8,7 @@ const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChan
 
 
   const handleValidateNumbers = (e) => {
-    const newValueInput = e.target.value.replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    const newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     e.target.value = newValueInput;
   }
 

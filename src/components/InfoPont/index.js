@@ -1,19 +1,33 @@
 import { useEffect, useState } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+
+
 import './index.scss';
 
 const InfoPoint = (props) => {
-  const {name,count,type,defValue} = props;
+  const {name,count,type, circleInfo, hintText} = props;
   //const [count, setCount] = useState(i); 
   //const [type, setType] = useState(k);
 
   return (
     <>
       <div className="info-element">
-        <p className="info-element__name">
-          {`${name}`}
-        </p>
+        <div className="info-element__wrapper-name">
+          <span className="info-element__name">
+            {`${name}`}
+          </span>
+          {circleInfo && (
+            <>
+              <FontAwesomeIcon icon={faCircleInfo} tabIndex="1"/>
+              <div className="info-element__hint">
+                {hintText}
+              </div>
+            </>
+          )}
+        </div>
         <div className="info-element__wrapper-info">
-          <span className="info-element__counts">{count ?? defValue} </span>
+          <span className="info-element__counts">{count} </span>
           <span className="info-element__type">{`${type}`}</span>
         </div>
       </div>
