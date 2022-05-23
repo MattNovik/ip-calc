@@ -1,12 +1,12 @@
 import './index.scss';
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm, setError } from "react-hook-form";
 import { useCookies } from 'react-cookie';
 import FormInputDropdown from "../FormInputDropdown";
 import TextFieldInput from "../TextFieldInput";
 
 const FormCalc = ({onSubmitParent}) => {
-  const { handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all'});
+  const { handleSubmit, getValues, control, setError, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
   const [mainData, setMainData] = useState({});
   const [cookies, setCookie] = useCookies([]);
   let realEstateCostData = cookies.realEstateCost;
@@ -24,21 +24,34 @@ const FormCalc = ({onSubmitParent}) => {
       creditTermData = creditTermData.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
   }
-  cookiesData(cookies);
 
-  const inputValidation = (realEstateCost) => {
+  useEffect(()=> {
+    console.log('mount');
     const values = getValues();
-    if (Number(realEstateCost.replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
+    if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
+      setError("realEstateCost", "notEqual", "Passwords are different");
       return false;
     } else {
-      handleChange();
+      //handleChange();
+      return true;
+    }
+  }, [])
+
+  cookiesData(cookies);
+
+  const inputValidation = () => {
+    const values = getValues();
+    if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
+      return false;
+    } else {
+      //handleChange();
       return true;
     }
   }
 
   const inputMonthValidation = (creditTerm) => {
     const values = getValues();
-    if (Number(creditTerm.replace(/\s+/g, '')) <= 1) {
+    if (Number(creditTerm.replace(/\s+/g, '')) <= 1 || Number(creditTerm.replace(/\s+/g, '')) > 240) {
       return false;
     } else {
       handleChange();
@@ -50,10 +63,16 @@ const FormCalc = ({onSubmitParent}) => {
     for (let key in data) {
       setCookie(key, data[key]);
     }
+    if (errors) {
+      for (let key in errors) {
+        setCookie(key, errors[key]);
+      }
+    }
   }
 
   const handleChange = () => {
-    setTimeout(() => {
+    if ((errors.downPayment && errors.downPayment.type === "validate" && true) || (errors.realEstateCost && errors.realEstateCost.type && true) || (errors.creditTerm && errors.creditTerm.type === "validate" && true)) {
+    } else {
       const values = getValues();
       for (let key in values) {
         if (key !== 'goal') {
@@ -63,11 +82,11 @@ const FormCalc = ({onSubmitParent}) => {
       setMainData(mainData => Object.assign(mainData, values));
       onSubmitParent(mainData);
       handleCookie(mainData);
-    },0);
+    }
   }
    
   return (
-    <form className="calcForm"  onBlur={handleSubmit(handleChange)}>
+    <form className="calcForm" onBlur={handleSubmit(handleChange)} onChange={handleSubmit(handleChange)}>
       <div className="calcForm__wrapper-box">
         <FormInputDropdown
           name="goal"
@@ -83,19 +102,19 @@ const FormCalc = ({onSubmitParent}) => {
           label="Стоимость недвижимости"
           ps="руб."
           defValue={realEstateCostData ?? "30 000 000"}
-          rules={{ required: true, validate: inputValidation }}
+          rules={{ required: "Первый взнос не может быть больше", validate: inputValidation, deps: ['downPayment','creditTerm']  }}
           helperText={errors.realEstateCost && errors.realEstateCost.type === "validate" && "Первый взнос не может быть больше"}
         />
         <TextFieldInput
-          error={errors.realEstateCost && errors.realEstateCost.type === "validate" && true}
+          error={errors.downPayment && errors.downPayment.type === "validate" && true}
           control={control}
           //onCustomChange={handleChange}
           name="downPayment"
           label="Первоначальный взнос"
           ps="руб."
           defValue={downPaymentData ?? "10 000 000"}
-          rules={{ required: true, validate: inputValidation }}
-          helperText={errors.realEstateCost && errors.realEstateCost.type === "validate" && "Первый взнос не может быть больше"}
+          rules={{ required: "Первый взнос не может быть больше", validate: inputValidation, deps: ['realEstateCost','creditTerm'] }}
+          helperText={errors.downPayment && errors.downPayment.type === "validate" && "Первый взнос не может быть больше"}
         />
         <TextFieldInput
           error={errors.creditTerm && errors.creditTerm.type === "validate" && true}
@@ -105,8 +124,8 @@ const FormCalc = ({onSubmitParent}) => {
           label="Срок кредита"
           ps="мес."
           defValue={creditTermData ?? "30"}
-          rules={{ required: true, validate: inputMonthValidation }}
-          helperText={errors.creditTerm && errors.creditTerm.type === "validate" && "Срок кредита не может быть меньше 1 мес"}
+          rules={{ required: "Срок кредита не может быть меньше 1 мес", validate: inputMonthValidation, deps: ['realEstateCost','downPayment'] }}
+          helperText={errors.creditTerm && errors.creditTerm.type === "validate" && "Срок кредита не может быть меньше 1 и больше 240"}
         />
       </div>
     </form>

@@ -6,10 +6,13 @@ import { SliderInputComp } from '../SliderInputComp';
 
 const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChange, control, rules}) => {
 
-
   const handleValidateNumbers = (e) => {
     const newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    e.target.value = newValueInput;
+    if (newValueInput === '') {
+      e.target.value = '0';
+    } else {
+      e.target.value = newValueInput;
+    }
   }
 
   return (

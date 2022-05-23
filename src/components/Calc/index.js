@@ -12,8 +12,9 @@ const Calc = () => {
   const [taxes, setTaxes] = useState("658 000");
   const [income, setIncome] = useState("1 241 379.31");
   const [cookies, setCookie] = useCookies([]);
+  const [finalMassFirst, setFinalMass] = useState([]);
 
-  const mainData = {};
+  const mainData = {finalMassFirst};
 
   const sheduleDataFunc = (data) => {
     let shedulePercent = percentList[data.goal];
@@ -22,24 +23,36 @@ const Calc = () => {
     let sheduleCreditTerm = data.creditTerm;
     let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
     let sheduleMonthPay;
-    sheduleMonthPay = (sheduleCreditSumm*shedulePercent/12/100*commonPerc)/(commonPerc - 1);
+    sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
     let finalMass = [];
-    let month = 1;
     let i = sheduleCreditTerm;
-    let percentLeftSum = sheduleCreditSumm * shedulePercent/12/100;
     let mainPerc = sheduleMonthPay;
+    let newData = new Date();
+    let newYear = newData.getFullYear();
+    let newMonth = newData.getMonth();
+    let month = newMonth;
+    let monthMass = [
+      'янв.', 'фев.', 'мар.',
+      'апр.', 'май', 'июн.',
+      'июл.', 'авг.', 'сен.',
+      'окт.', 'ноя.', 'дек.'
+    ];
     while (i > 0) {
-      percentLeftSum = sheduleCreditSumm * shedulePercent/12/100;
-      mainPerc = mainPerc - percentLeftSum;
       sheduleCreditSumm = sheduleCreditSumm - mainPerc;
       let nextElem = {};
       i--;
-      month = month + 1;
-      let nameMonth = `${'month' + month}`;
-      nextElem[month] = mainPerc;
+      let dateName = `${ monthMass[month] + ' ' + newYear}`;
+      if (month === 11) {
+        month = 0;
+        newYear++;
+      } else {
+        month = month + 1;
+      }
+      nextElem['rub'] = mainPerc.toFixed(2);
+      nextElem['name'] = dateName;
       finalMass.push(nextElem);
     }
-    return finalMass;
+    setFinalMass(finalMass);
   }
 
   const percentList = {
@@ -89,18 +102,32 @@ const Calc = () => {
     let newPercent = percentList[data.goal];
     setCookie("newPercent",newPercent);
     let newMonthPay = (((data.realEstateCost-data.downPayment)*(percent/12/100))/(1-(1+(percent/12/100)*(1-data.creditTerm))));
-    setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    if (newMonthPay < 0) {
+      setCookie("newMonthPay", 0);
+    } else {
+      setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setCreditSumm(0);
+    }
     let newCreditSumm = (data.realEstateCost-data.downPayment);
-    setCookie("newCreditSumm",newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    if (newMonthPay < 0) {
+      setCookie("newCreditSumm", 0);
+      setMonthPay(0);
+    } else {
+      setCookie("newCreditSumm",newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    }
     let newIncome = (Number(newMonthPay)*1.8);
-    setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-    setCreditSumm(newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-    setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-    setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    if (newIncome < 0) {
+      setCookie("newIncome",0);
+      setIncome(0);
+    } else {
+      setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    }
     setPercent(newPercent);
     handleCookie(data);
+    sheduleDataFunc(data);
     Object.assign(mainData, data);
-    console.log(sheduleDataFunc(data));
   }
 
   return (
@@ -120,7 +147,7 @@ const Calc = () => {
           <FormCalc onSubmitParent={callFunc}/>
         </div>
       </div>
-      <PaymentShedule />
+      <PaymentShedule dataInfo={finalMassFirst}/>
     </>
   )
 }
