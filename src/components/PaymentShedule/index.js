@@ -28,7 +28,7 @@ const PaymentShedule = (dataInfo) => {
           <YAxis />
           <Tooltip />
           <Legend verticalAlign="top" height={36}/>
-          <Bar name="руб. в месяц" dataKey="rub" fill="#8884d8" />
+          <Bar name="a month" dataKey="rub" fill="#8884d8" unit="rub"/>
         </BarChart>
         </ResponsiveContainer>
     </div>

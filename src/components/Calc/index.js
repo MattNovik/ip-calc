@@ -6,8 +6,9 @@ import './index.scss';
 import PaymentShedule from "../PaymentShedule";
 
 const Calc = () => {
-  const [monthPay, setMonthPay] = useState("689 655.17" );
+  const [monthPay, setMonthPay] = useState("784 430.98" );
   const [percent, setPercent] = useState(13);
+  const [creditTerm, setCreditTerm] = useState(5);
   const [creditSumm, setCreditSumm] = useState("20 000 000.00");
   const [taxes, setTaxes] = useState("658 000");
   const [income, setIncome] = useState("1 241 379.31");
@@ -19,11 +20,9 @@ const Calc = () => {
   const sheduleDataFunc = (data) => {
     let shedulePercent = percentList[data.goal];
     let sheduleCreditSumm = (data.realEstateCost-data.downPayment);
-    //let sheduleMonthPay = (((data.realEstateCost-data.downPayment)*(shedulePercent/12/100))/(1-(1+(shedulePercent/12/100)*(1-data.creditTerm))));
     let sheduleCreditTerm = data.creditTerm;
     let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
-    let sheduleMonthPay;
-    sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
+    let sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
     let finalMass = [];
     let i = sheduleCreditTerm;
     let mainPerc = sheduleMonthPay;
@@ -31,6 +30,7 @@ const Calc = () => {
     let newYear = newData.getFullYear();
     let newMonth = newData.getMonth();
     let month = newMonth;
+    let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
     let monthMass = [
       'янв.', 'фев.', 'мар.',
       'апр.', 'май', 'июн.',
@@ -48,7 +48,7 @@ const Calc = () => {
       } else {
         month = month + 1;
       }
-      nextElem['rub'] = mainPerc.toFixed(2);
+      nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
       nextElem['name'] = dateName;
       finalMass.push(nextElem);
     }
@@ -73,8 +73,7 @@ const Calc = () => {
       return key === storedKey 
         ? decodeURIComponent(storedValue) 
         : total;
-    },
-  '');
+    },'');
 
   useEffect((cookies) => {
     if (getCookie("newMonthPay") !== '') {
@@ -89,6 +88,9 @@ const Calc = () => {
     if (getCookie("newIncome") !== '') {
       setIncome(getCookie("newIncome"));
     } 
+    if (getCookie("newCreditTerm") !== '') {
+      setCreditTerm(getCookie("newCreditTerm"));
+    }
   }, []);
 
 
@@ -100,21 +102,24 @@ const Calc = () => {
 
   const callFunc = (data) => {
     let newPercent = percentList[data.goal];
+    let newCreditTerm = data.creditTerm;
+    setCookie("newCreditTerm",newCreditTerm);
     setCookie("newPercent",newPercent);
-    let newMonthPay = (((data.realEstateCost-data.downPayment)*(percent/12/100))/(1-(1+(percent/12/100)*(1-data.creditTerm))));
+    let newMonthPay = (data.realEstateCost-data.downPayment)*(percent/12/100 + percent/12/100/(Math.pow((1 + percent/12/100), newCreditTerm) - 1));
     if (newMonthPay < 0) {
       setCookie("newMonthPay", 0);
-    } else {
-      setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-      setCreditSumm(0);
-    }
-    let newCreditSumm = (data.realEstateCost-data.downPayment);
-    if (newMonthPay < 0) {
-      setCookie("newCreditSumm", 0);
       setMonthPay(0);
     } else {
-      setCookie("newCreditSumm",newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+    }
+    let newCreditSumm = (data.realEstateCost-data.downPayment);
+    if (newCreditSumm < 0) {
+      setCookie("newCreditSumm", 0);
+      setCreditSumm(0);
+    } else {
+      setCookie("newCreditSumm",newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setCreditSumm(newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
     }
     let newIncome = (Number(newMonthPay)*1.8);
     if (newIncome < 0) {

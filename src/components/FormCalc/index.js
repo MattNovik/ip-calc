@@ -26,10 +26,8 @@ const FormCalc = ({onSubmitParent}) => {
   }
 
   useEffect(()=> {
-    console.log('mount');
     const values = getValues();
     if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
-      setError("realEstateCost", "notEqual", "Passwords are different");
       return false;
     } else {
       //handleChange();
