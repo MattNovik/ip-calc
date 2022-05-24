@@ -2,18 +2,17 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { Controller} from "react-hook-form";
 import { InputAdornment } from "@mui/material";
-import { SliderInputComp } from '../SliderInputComp';
+
+const handleValidateNumbers = (e) => {
+  let newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  if (newValueInput === '') {
+    e.target.value = '0';
+  } else {
+    e.target.value = newValueInput;
+  }
+}
 
 const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChange, control, rules}) => {
-
-  const handleValidateNumbers = (e) => {
-    const newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    if (newValueInput === '') {
-      e.target.value = '0';
-    } else {
-      e.target.value = newValueInput;
-    }
-  }
 
   return (
       <Controller
@@ -25,7 +24,6 @@ const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChan
           <TextField
             onChange={(e) => {
               handleValidateNumbers(e);
-              //onCustomChange();
               onChange(e);
             }}
             error={error ?? false}

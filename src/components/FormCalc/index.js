@@ -1,12 +1,13 @@
 import './index.scss';
 import React, { useEffect, useState } from "react";
-import { useForm, setError } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useCookies } from 'react-cookie';
 import FormInputDropdown from "../FormInputDropdown";
 import TextFieldInput from "../TextFieldInput";
+import debounce from 'debounce'
 
 const FormCalc = ({onSubmitParent}) => {
-  const { handleSubmit, getValues, control, setError, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
+  const { handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
   const [mainData, setMainData] = useState({});
   const [cookies, setCookie] = useCookies([]);
   let realEstateCostData = cookies.realEstateCost;
@@ -24,40 +25,39 @@ const FormCalc = ({onSubmitParent}) => {
       creditTermData = creditTermData.replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
   }
+  cookiesData(cookies); // достаю данные из cookies если они там есть
 
-  useEffect(()=> {
+  useEffect(() => {
+    let data = {};
     const values = getValues();
-    if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
-      return false;
-    } else {
-      //handleChange();
-      return true;
+    for (let key in values) {
+      if (key !== 'goal') {
+        values[key] = Number(values[key].replace(/\s+/g, ''));
+      }
     }
-  }, [])
-
-  cookiesData(cookies);
+    Object.assign(data, values)
+    onSubmitParent(data);
+  }, []) // Вызываю генерацию таблицы и графика после инициализации
 
   const inputValidation = () => {
     const values = getValues();
     if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
       return false;
     } else {
-      //handleChange();
       return true;
     }
-  }
+  } // функция проверки обычного инпута числового
 
   const inputMonthValidation = (creditTerm) => {
     const values = getValues();
     if (Number(creditTerm.replace(/\s+/g, '')) <= 1 || Number(creditTerm.replace(/\s+/g, '')) > 240) {
       return false;
     } else {
-      handleChange();
       return true;
     }
-  }
+  } // функция проверки поля с месяцем
 
-  function handleCookie(data) {
+  const handleCookie = (data) => {
     for (let key in data) {
       setCookie(key, data[key]);
     }
@@ -66,25 +66,27 @@ const FormCalc = ({onSubmitParent}) => {
         setCookie(key, errors[key]);
       }
     }
-  }
+  }// записть в cookie или обновление
 
   const handleChange = () => {
     if ((errors.downPayment && errors.downPayment.type === "validate" && true) || (errors.realEstateCost && errors.realEstateCost.type && true) || (errors.creditTerm && errors.creditTerm.type === "validate" && true)) {
     } else {
       const values = getValues();
+
       for (let key in values) {
         if (key !== 'goal') {
           values[key] = Number(values[key].replace(/\s+/g, ''));
         }
       }
+
       setMainData(mainData => Object.assign(mainData, values));
       onSubmitParent(mainData);
       handleCookie(mainData);
     }
-  }
+  } // сбор данных, сохрание cookies и запуск данных дальше в доч. комп (f.onSybmitParent)
    
   return (
-    <form className="calcForm" onBlur={handleSubmit(handleChange)} onChange={handleSubmit(handleChange)}>
+    <form className="calcForm" onBlur={debounce(handleSubmit(handleChange), 500)} onChange={debounce(handleSubmit(handleChange), 500)}>
       <div className="calcForm__wrapper-box">
         <FormInputDropdown
           name="goal"
@@ -95,7 +97,6 @@ const FormCalc = ({onSubmitParent}) => {
         <TextFieldInput
           error={errors.realEstateCost && errors.realEstateCost.type === "validate" && true}
           control={control}
-          //onCustomChange={handleChange}
           name="realEstateCost"
           label="Стоимость недвижимости"
           ps="руб."
@@ -106,7 +107,6 @@ const FormCalc = ({onSubmitParent}) => {
         <TextFieldInput
           error={errors.downPayment && errors.downPayment.type === "validate" && true}
           control={control}
-          //onCustomChange={handleChange}
           name="downPayment"
           label="Первоначальный взнос"
           ps="руб."
@@ -117,7 +117,6 @@ const FormCalc = ({onSubmitParent}) => {
         <TextFieldInput
           error={errors.creditTerm && errors.creditTerm.type === "validate" && true}
           control={control}
-          //onCustomChange={handleChange}
           name="creditTerm"
           label="Срок кредита"
           ps="мес."

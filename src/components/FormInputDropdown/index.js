@@ -2,7 +2,7 @@ import React from "react";
 import { TextField, MenuItem } from "@mui/material";
 import {  Controller } from "react-hook-form";
 
-const options = [
+const OPTIONS = [
   {
     label: "Квартира в новостройке",
     value: "1",
@@ -33,10 +33,10 @@ const options = [
   },
 ];
 
-const FormInputDropdown= ({name, control, label, helperText, defValue, onCustomChange}) => {
+const FormInputDropdown= ({name, control, label, helperText, defValue}) => {
 
   const generateSelectOptions = () => {
-    return options.map((option) => {
+    return OPTIONS.map((option) => {
       return (
         <MenuItem key={option.value} value={option.value}>
           {option.label}
@@ -44,7 +44,6 @@ const FormInputDropdown= ({name, control, label, helperText, defValue, onCustomC
       );
     });
   };
-
 
   return <Controller
       control={control}

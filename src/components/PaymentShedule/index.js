@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import './index.scss';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const PaymentShedule = (dataInfo) => {
   const [infoData, setInfoData] = useState({});
@@ -25,10 +25,11 @@ const PaymentShedule = (dataInfo) => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis width={100}/>
           <Tooltip />
           <Legend verticalAlign="top" height={36}/>
-          <Bar name="a month" dataKey="rub" fill="#8884d8" unit="rub"/>
+          <Bar name="main" stackId="a" dataKey="rub" fill="#8884d8" unit="rub"/>
+          <Bar name="perc" stackId="a" dataKey="rubDop" fill="red" unit="dop"/>
         </BarChart>
         </ResponsiveContainer>
     </div>
