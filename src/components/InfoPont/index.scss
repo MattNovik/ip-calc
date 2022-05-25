@@ -3,6 +3,10 @@
   flex-direction: column;
   row-gap: 10px;
 
+  @media (max-width: 1024px) {
+    width: max-content;
+  }
+
   &__hint {
     position: absolute;
     width: 140px;
@@ -15,6 +19,10 @@
     opacity: 0;
     visibility: hidden;
     transition: all .3s;
+  }
+
+  &__counts {
+    white-space: nowrap;
   }
 
   &__wrapper-name {

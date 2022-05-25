@@ -6,7 +6,7 @@ import FormInputDropdown from "../FormInputDropdown";
 import TextFieldInput from "../TextFieldInput";
 import debounce from 'debounce'
 
-const FormCalc = ({onSubmitParent}) => {
+const FormCalc = ({onSubmitParent, typeCredit}) => {
   const { handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
   const [mainData, setMainData] = useState({});
   const [cookies, setCookie] = useCookies([]);
@@ -80,7 +80,7 @@ const FormCalc = ({onSubmitParent}) => {
       }
 
       setMainData(mainData => Object.assign(mainData, values));
-      onSubmitParent(mainData);
+      onSubmitParent(mainData,typeCredit);
       handleCookie(mainData);
     }
   } // сбор данных, сохрание cookies и запуск данных дальше в доч. комп (f.onSybmitParent)

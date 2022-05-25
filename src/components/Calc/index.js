@@ -47,6 +47,8 @@ const Calc = () => {
   const [finalMassFirst, setFinalMass] = useState([]);
   const [table, setTable] = useState(false);
   const [shedule, setShedule] = useState(false);
+  const [typeCred, setTypeCred]  = useState("ann");
+  const [newMainData, setNewMainData] = useState();
 
   const mainData = {finalMassFirst};
 
@@ -69,52 +71,86 @@ const Calc = () => {
     if (getCookie("newCreditTerm") !== '') {
       setCreditTerm(getCookie("newCreditTerm"));
     }
-  }, []);
+  },[]);
 
-  const sheduleDataFunc = (data) => {
-    let shedulePercent = PERCENTLIST[data.goal];
-    let sheduleCreditSumm = (data.realEstateCost-data.downPayment);
-    let sheduleCreditTerm = data.creditTerm;
-
-    let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
-    let sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
-    let finalMass = [];
-    let i = sheduleCreditTerm;
-    let mainPerc = sheduleMonthPay;
-
+  const sheduleDataFunc = (data, type) => {
     let newData = new Date();
     let newYear = newData.getFullYear();
     let newMonth = newData.getMonth();
     let month = newMonth;
-    //let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
 
-    while (i > 0) {
-      let percentCredit = sheduleCreditSumm*shedulePercent/12/100;
-      mainPerc = sheduleMonthPay - percentCredit;
-      sheduleCreditSumm = sheduleCreditSumm - mainPerc;
+    let shedulePercent = PERCENTLIST[data.goal];
+    let sheduleCreditSumm = (data.realEstateCost-data.downPayment);
+    let sheduleCreditTerm = data.creditTerm;
 
-      let nextElem = {};
-      let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
+    let finalMass = [];
+    let i = sheduleCreditTerm;
+    let mainPerc;
+    let sheduleMonthPay;
+    if (type === 'dif') {
+      mainPerc = sheduleCreditSumm/sheduleCreditTerm;
 
-      if (month === 11) {
-        month = 0;
-        newYear++;
-      } else {
-        month = month + 1;
+      while (i > 0) {
+        let percentCredit = sheduleCreditSumm*shedulePercent/100/12;
+        sheduleCreditSumm = sheduleCreditSumm - mainPerc;
+        sheduleMonthPay = mainPerc + percentCredit;
+
+        let nextElem = {};
+        let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
+
+        if (month === 11) {
+          month = 0;
+          newYear++;
+        } else {
+          month = month + 1;
+        }
+
+        nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
+        nextElem['rubDop'] = `${percentCredit.toFixed(2) + ' '}`;
+        nextElem['name'] = dateName;
+        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(2)) + ' '}`;
+        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(2) + ' '}`
+
+        finalMass.push(nextElem);
+
+        i--;
       }
 
-      nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
-      nextElem['rubDop'] = `${percentCredit.toFixed(2) + ' '}`;
-      nextElem['name'] = dateName;
-      nextElem['summLeft'] = `${sheduleCreditSumm.toFixed(2) + ' '}`;
-      nextElem['monthPay'] = `${sheduleMonthPay.toFixed(2) + ' '}`
+      setFinalMass(finalMass);
+    } else {
+      let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
+      sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
+      mainPerc = sheduleMonthPay;
+      //let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
 
-      finalMass.push(nextElem);
+      while (i > 0) {
+        let percentCredit = sheduleCreditSumm*shedulePercent/12/100;
+        mainPerc = sheduleMonthPay - percentCredit;
+        sheduleCreditSumm = sheduleCreditSumm - mainPerc;
 
-      i--;
+        let nextElem = {};
+        let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
+
+        if (month === 11) {
+          month = 0;
+          newYear++;
+        } else {
+          month = month + 1;
+        }
+
+        nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
+        nextElem['rubDop'] = `${percentCredit.toFixed(2) + ' '}`;
+        nextElem['name'] = dateName;
+        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(2)) + ' '}`;
+        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(2) + ' '}`
+
+        finalMass.push(nextElem);
+
+        i--;
+      }
+
+      setFinalMass(finalMass);
     }
-
-    setFinalMass(finalMass);
   }
 
   const handleCookie = (data) => { 
@@ -123,31 +159,14 @@ const Calc = () => {
     }
   }
 
-  const callFunc = (data) => {
+  const callFunc = (data, type) => {
     let newPercent = PERCENTLIST[data.goal];
     setCookie("newPercent",newPercent);
     setPercent(newPercent);
+    setNewMainData(data);
 
     let newCreditTerm = data.creditTerm;
     setCookie("newCreditTerm",newCreditTerm);
-
-    let newMonthPay = (data.realEstateCost-data.downPayment)*(percent/12/100 + percent/12/100/(Math.pow((1 + percent/12/100), newCreditTerm) - 1));
-    if (newMonthPay < 0) {
-      setCookie("newMonthPay", 0);
-      setMonthPay(0);
-    } else {
-      setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-      setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-    }
-
-    let newSummToPay = newMonthPay * newCreditTerm;
-    if (newSummToPay < 0) {
-      setCookie("newSummToPay", 0);
-      setSummToPay(0);
-    } else {
-      setCookie("newSummToPay", newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-      setSummToPay(newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-    }
 
     let newCreditSumm = (data.realEstateCost-data.downPayment);
     if (newCreditSumm < 0) {
@@ -158,22 +177,75 @@ const Calc = () => {
       setCreditSumm(newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
     }
 
-    let newIncome = (Number(newMonthPay)*1.8);
-    if (newIncome < 0) {
-      setCookie("newIncome",0);
-      setIncome(0);
+    if (type === "dif") {
+      let mainPerc = newCreditSumm/newCreditTerm;
+      let mainCreditSumm = newCreditSumm;
+      let mainMonthPay;
+      let i = newCreditTerm;
+      let mainFinalMass = [];
+
+      while (i > 0) {
+        let percentCredit = mainCreditSumm*newPercent/100/12;
+        mainCreditSumm = mainCreditSumm - mainPerc;
+        mainMonthPay = mainPerc + percentCredit;
+        mainFinalMass.push(mainMonthPay.toFixed(2));
+
+        i--;
+      }
+      
+      if (mainFinalMass[0] < 0 || mainFinalMass[mainFinalMass.length-1] < 0) {
+        setCookie("newMonthPay", 0);
+        setMonthPay(0);
+      } else {
+        setCookie("newMonthPay", `${'от ' + mainFinalMass[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' руб. до ' + mainFinalMass[mainFinalMass.length-1].replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`);
+        setMonthPay(`${'от ' + mainFinalMass[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' руб. до ' + mainFinalMass[mainFinalMass.length-1].replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`);
+      }
+
+      let newIncome = (Number(mainFinalMass[0])*1.8);
+      if (newIncome < 0) {
+        setCookie("newIncome",0);
+        setIncome(0);
+      } else {
+        setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      }
     } else {
-      setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-      setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      let newMonthPay = (data.realEstateCost-data.downPayment)*(percent/12/100 + percent/12/100/(Math.pow((1 + percent/12/100), newCreditTerm) - 1));
+      if (newMonthPay < 0) {
+        setCookie("newMonthPay", 0);
+        setMonthPay(0);
+      } else {
+        setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      }
+
+      let newSummToPay = newMonthPay * newCreditTerm;
+      if (newSummToPay < 0) {
+        setCookie("newSummToPay", 0);
+        setSummToPay(0);
+      } else {
+        setCookie("newSummToPay", newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setSummToPay(newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      }
+
+      let newIncome = (Number(newMonthPay)*1.8);
+      if (newIncome < 0) {
+        setCookie("newIncome",0);
+        setIncome(0);
+      } else {
+        setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      }
     }
 
     handleCookie(data);
-    sheduleDataFunc(data);
+    sheduleDataFunc(data, type);
     Object.assign(mainData, data);
   } // передаю функцию в компоннет FormCalc для расчетов и получения данных
 
   const toggleFunc = (data) => {
-    console.log(data);
+    setTypeCred(data);
+    callFunc(newMainData, data);
   } // передаю функцию в компоннент TogglesComp для получения значения 
 
   return (
@@ -185,17 +257,17 @@ const Calc = () => {
         <div className="calc__block">
           <div className="calc__info">
             <InfoPoint name="Ежемесячный платеж" count={monthPay} type="руб."/>
-            <InfoPoint name="Ставка по кредиту"  count={percent} type="%" />
             <InfoPoint name="Сумма кредита"  count={creditSumm} type="руб." />
+            <InfoPoint name="Ставка по кредиту"  count={percent} type="%" />
+            <InfoPoint name="Общая сумма кредита"  count={summToPay} type="руб." />
             <InfoPoint name="Налоговый вычет"  count={taxes} type="руб." circleInfo="true" hintText="Some info more info about this point" />
             <InfoPoint name="Необходимый доход"  count={income} type="руб." />
-            <InfoPoint name="Общая сумма кредита"  count={summToPay} type="руб." />
           </div>
-          <FormCalc onSubmitParent={callFunc}/>
+          <FormCalc onSubmitParent={callFunc} typeCredit={typeCred}/>
           <div className="buttons-wrapper">
             <ButtonComp name="Показать график платежей" func={() => setShedule(true)} />
-            <TogglesComp toggleFunc={toggleFunc}/>
             <ButtonComp name="Показать таблицу платежей" func={() => setTable(true)} />
+            <TogglesComp toggleFunc={toggleFunc}/>
           </div>
         </div>
       </div>
