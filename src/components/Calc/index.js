@@ -6,6 +6,7 @@ import './index.scss';
 import PaymentShedule from "../PaymentShedule";
 import TablePayment from "../TablePayment";
 import ButtonComp from "../ButtonComp";
+import TogglesComp from "../TogglesComp";
 
 const getCookie = key =>
 document.cookie.split("; ").reduce((total, currentCookie) => {
@@ -23,6 +24,16 @@ const MONTHMASS = [
   'июл.', 'авг.', 'сен.',
   'окт.', 'ноя.', 'дек.'
 ];
+
+const PERCENTLIST = {
+  "1": 13,
+  "2": 15,
+  "3": 14.5,
+  "4": 12,
+  "5": 11,
+  "6": 16,
+  "7": 10,
+};
 
 const Calc = () => {
   const [monthPay, setMonthPay] = useState("784 430.98" );
@@ -61,7 +72,7 @@ const Calc = () => {
   }, []);
 
   const sheduleDataFunc = (data) => {
-    let shedulePercent = percentList[data.goal];
+    let shedulePercent = PERCENTLIST[data.goal];
     let sheduleCreditSumm = (data.realEstateCost-data.downPayment);
     let sheduleCreditTerm = data.creditTerm;
 
@@ -106,16 +117,6 @@ const Calc = () => {
     setFinalMass(finalMass);
   }
 
-  const percentList = {
-    "1": 13,
-    "2": 15,
-    "3": 14.5,
-    "4": 12,
-    "5": 11,
-    "6": 16,
-    "7": 10,
-  };
-
   const handleCookie = (data) => { 
     for (let key in data) {
       setCookie(key, data[key]);
@@ -123,7 +124,7 @@ const Calc = () => {
   }
 
   const callFunc = (data) => {
-    let newPercent = percentList[data.goal];
+    let newPercent = PERCENTLIST[data.goal];
     setCookie("newPercent",newPercent);
     setPercent(newPercent);
 
@@ -169,7 +170,11 @@ const Calc = () => {
     handleCookie(data);
     sheduleDataFunc(data);
     Object.assign(mainData, data);
-  }
+  } // передаю функцию в компоннет FormCalc для расчетов и получения данных
+
+  const toggleFunc = (data) => {
+    console.log(data);
+  } // передаю функцию в компоннент TogglesComp для получения значения 
 
   return (
     <>
@@ -189,6 +194,7 @@ const Calc = () => {
           <FormCalc onSubmitParent={callFunc}/>
           <div className="buttons-wrapper">
             <ButtonComp name="Показать график платежей" func={() => setShedule(true)} />
+            <TogglesComp toggleFunc={toggleFunc}/>
             <ButtonComp name="Показать таблицу платежей" func={() => setTable(true)} />
           </div>
         </div>
