@@ -1,6 +1,7 @@
 import { ToggleButton } from '@mui/material';
 import { ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
+import './index.scss';
 
 const TogglesComp = ({toggleFunc}) => {
   const [typeCredit, setTypeCredit] = useState('ann');
