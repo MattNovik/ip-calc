@@ -1,37 +1,7 @@
 import React from "react";
 import { TextField, MenuItem } from "@mui/material";
 import {  Controller } from "react-hook-form";
-
-const OPTIONS = [
-  {
-    label: "Квартира в новостройке",
-    value: "1",
-  },
-  {
-    label: "Квартира на вторичном рынке",
-    value: "2",
-  },
-  {
-    label: "КупитьДом",
-    value: "3",
-  },
-  {
-    label: "Построть Дом",
-    value: "4",
-  },
-  {
-    label: "Купить землю или дачный дом",
-    value: "5",
-  },
-  {
-    label: "Рефинансирование",
-    value: "6",
-  },
-  {
-    label: "Наличные под залог жилья",
-    value: "7",
-  },
-];
+import { OPTIONS } from "../../data/data";
 
 const FormInputDropdown= ({name, control, label, helperText, defValue}) => {
 

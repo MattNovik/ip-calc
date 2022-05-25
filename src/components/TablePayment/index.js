@@ -8,7 +8,7 @@ import { TableRow } from "@mui/material";
 import { Paper } from "@mui/material";
 import "./index.scss"
 
-export default function TablePayment(tableInfo) {
+const TablePayment = (tableInfo) => {
 
   const  createData = (name, mainPay, percPay, summLeft, monthPay) => {
     return { name, mainPay, percPay, summLeft, monthPay };
@@ -66,3 +66,5 @@ export default function TablePayment(tableInfo) {
     </div>
   );
 }
+
+export default TablePayment;

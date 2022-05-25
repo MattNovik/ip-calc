@@ -21,8 +21,8 @@ const TogglesComp = ({toggleFunc}) => {
       exclusive
       onChange={handleChange}
     >
-      <ToggleButton value="ann">Аннуитетная</ToggleButton>
-      <ToggleButton value="dif">Дифференциальная</ToggleButton>
+      <ToggleButton value="ann">Аннуитетный</ToggleButton>
+      <ToggleButton value="dif">Дифференциальный</ToggleButton>
     </ToggleButtonGroup>
   );
 }

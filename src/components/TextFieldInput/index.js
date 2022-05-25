@@ -2,18 +2,9 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { Controller} from "react-hook-form";
 import { InputAdornment } from "@mui/material";
+import { handleValidateNumbers } from "../../utilsFunctions/utils";
 
-const handleValidateNumbers = (e) => {
-  let newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  if (newValueInput === '') {
-    e.target.value = '0';
-  } else {
-    e.target.value = newValueInput;
-  }
-}
-
-const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChange, control, rules}) => {
-
+const TextFieldInput = ({name,label,ps,defValue, error, helperText, control, rules}) => {
   return (
       <Controller
         name={name}
@@ -32,7 +23,7 @@ const TextFieldInput = ({name,label,ps,defValue, error, helperText, onCustomChan
             maxLength='15'
             helperText={helperText ?? false}
             InputProps={{
-              inputMode: 'decimal',
+              inputMode: 'numeric',
               pattern: '[0-9]*',
               endAdornment: <InputAdornment position="end">{ps}</InputAdornment>,
             }}

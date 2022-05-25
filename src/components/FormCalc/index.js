@@ -41,20 +41,12 @@ const FormCalc = ({onSubmitParent, typeCredit}) => {
 
   const inputValidation = () => {
     const values = getValues();
-    if (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) {
-      return false;
-    } else {
-      return true;
-    }
+    return (Number(values["realEstateCost"].replace(/\s+/g, '')) <= Number(values["downPayment"].replace(/\s+/g, ''))) ? false : true;
   } // функция проверки обычного инпута числового
 
-  const inputMonthValidation = (creditTerm) => {
+  const inputMonthValidation = () => {
     const values = getValues();
-    if (Number(creditTerm.replace(/\s+/g, '')) <= 1 || Number(creditTerm.replace(/\s+/g, '')) > 240) {
-      return false;
-    } else {
-      return true;
-    }
+    return(Number(values["creditTerm"].replace(/\s+/g, '')) <= 1 || Number(values["creditTerm"].replace(/\s+/g, '')) > 240) ? false : true;
   } // функция проверки поля с месяцем
 
   const handleCookie = (data) => {
@@ -66,7 +58,7 @@ const FormCalc = ({onSubmitParent, typeCredit}) => {
         setCookie(key, errors[key]);
       }
     }
-  }// записть в cookie или обновление
+  } // записть в cookie или обновление
 
   const handleChange = () => {
     if ((errors.downPayment && errors.downPayment.type === "validate" && true) || (errors.realEstateCost && errors.realEstateCost.type && true) || (errors.creditTerm && errors.creditTerm.type === "validate" && true)) {

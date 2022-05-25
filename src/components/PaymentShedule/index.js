@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './index.scss';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const PaymentShedule = (dataInfo) => {
   const [infoData, setInfoData] = useState({});
@@ -12,25 +12,25 @@ const PaymentShedule = (dataInfo) => {
   return (
     <div className="payment-shedule">
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          width={500}
-          height={300}
-          data={infoData.dataInfo}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis width={100}/>
-          <Tooltip />
-          <Legend verticalAlign="top" height={36}/>
-          <Bar name="main" stackId="a" dataKey="rub" fill="#8884d8" unit="rub"/>
-          <Bar name="perc" stackId="a" dataKey="rubDop" fill="red" unit="dop"/>
-        </BarChart>
+        <AreaChart
+            width={500}
+            height={300}
+            data={infoData.dataInfo}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis width={90} tickFormatter={tick => {return tick.toLocaleString();}} />
+            <Legend iconType="circle"/>
+            <Tooltip formatter={(value) => new Intl.NumberFormat().format(value)}/>
+            <Area type="monotone" name="Погашение долга" dataKey="rub" stackId="1" stroke="#8884d8" fill="#8884d8" unit=" руб."/>
+            <Area type="monotone" name="Погашение процентов" dataKey="rubDop" stackId="1" stroke="#82ca9d" fill="#82ca9d" unit=" руб."/>
+          </AreaChart>
         </ResponsiveContainer>
     </div>
   )

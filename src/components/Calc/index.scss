@@ -48,12 +48,16 @@
     justify-content: space-between;
     width: 100%;
 
-    &:first-child {
+    & > div {
+      order: 2;
+    }
+
+    & > button:first-child {
       order: 1;
     }
 
-    &:last-child {
-      order: 2;
+    & > button:last-of-type {
+      order: 3;
     }
 
     @media (max-width: 1199px) {
@@ -61,12 +65,16 @@
       align-items: center;
       row-gap: 20px;
 
-      &:first-child {
+      & > div {
+        order: 3;
+      }
+  
+      & > button:first-child {
         order: 1;
       }
   
-      &:last-child {
-        order: 3;
+      & > button:last-of-type {
+        order: 2;
       }
     }
 

@@ -7,6 +7,8 @@ import PaymentShedule from "../PaymentShedule";
 import TablePayment from "../TablePayment";
 import ButtonComp from "../ButtonComp";
 import TogglesComp from "../TogglesComp";
+import { MONTHMASS } from "../../data/data";
+import { PERCENTLIST } from "../../data/data";
 
 const getCookie = key =>
 document.cookie.split("; ").reduce((total, currentCookie) => {
@@ -17,23 +19,6 @@ document.cookie.split("; ").reduce((total, currentCookie) => {
     ? decodeURIComponent(storedValue) 
     : total;
 },'');
-
-const MONTHMASS = [
-  'янв.', 'фев.', 'мар.',
-  'апр.', 'май', 'июн.',
-  'июл.', 'авг.', 'сен.',
-  'окт.', 'ноя.', 'дек.'
-];
-
-const PERCENTLIST = {
-  "1": 13,
-  "2": 15,
-  "3": 14.5,
-  "4": 12,
-  "5": 11,
-  "6": 16,
-  "7": 10,
-};
 
 const Calc = () => {
   const [monthPay, setMonthPay] = useState("784 430.98" );
@@ -105,11 +90,11 @@ const Calc = () => {
           month = month + 1;
         }
 
-        nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
-        nextElem['rubDop'] = `${percentCredit.toFixed(2) + ' '}`;
+        nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
+        nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
         nextElem['name'] = dateName;
-        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(2)) + ' '}`;
-        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(2) + ' '}`
+        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
+        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
 
         finalMass.push(nextElem);
 
@@ -138,11 +123,11 @@ const Calc = () => {
           month = month + 1;
         }
 
-        nextElem['rub'] = `${mainPerc.toFixed(2) + ' '}`;
-        nextElem['rubDop'] = `${percentCredit.toFixed(2) + ' '}`;
+        nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
+        nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
         nextElem['name'] = dateName;
-        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(2)) + ' '}`;
-        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(2) + ' '}`
+        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
+        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
 
         finalMass.push(nextElem);
 
@@ -173,8 +158,8 @@ const Calc = () => {
       setCookie("newCreditSumm", 0);
       setCreditSumm(0);
     } else {
-      setCookie("newCreditSumm",newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-      setCreditSumm(newCreditSumm.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setCookie("newCreditSumm",newCreditSumm.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+      setCreditSumm(newCreditSumm.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
     }
 
     if (type === "dif") {
@@ -188,7 +173,7 @@ const Calc = () => {
         let percentCredit = mainCreditSumm*newPercent/100/12;
         mainCreditSumm = mainCreditSumm - mainPerc;
         mainMonthPay = mainPerc + percentCredit;
-        mainFinalMass.push(mainMonthPay.toFixed(2));
+        mainFinalMass.push(mainMonthPay.toFixed(0));
 
         i--;
       }
@@ -206,8 +191,8 @@ const Calc = () => {
         setCookie("newIncome",0);
         setIncome(0);
       } else {
-        setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-        setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setCookie("newIncome",newIncome.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setIncome(newIncome.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       }
     } else {
       let newMonthPay = (data.realEstateCost-data.downPayment)*(percent/12/100 + percent/12/100/(Math.pow((1 + percent/12/100), newCreditTerm) - 1));
@@ -215,8 +200,8 @@ const Calc = () => {
         setCookie("newMonthPay", 0);
         setMonthPay(0);
       } else {
-        setCookie("newMonthPay", newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-        setMonthPay(newMonthPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setCookie("newMonthPay", newMonthPay.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setMonthPay(newMonthPay.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       }
 
       let newSummToPay = newMonthPay * newCreditTerm;
@@ -224,8 +209,8 @@ const Calc = () => {
         setCookie("newSummToPay", 0);
         setSummToPay(0);
       } else {
-        setCookie("newSummToPay", newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-        setSummToPay(newSummToPay.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setCookie("newSummToPay", newSummToPay.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setSummToPay(newSummToPay.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       }
 
       let newIncome = (Number(newMonthPay)*1.8);
@@ -233,8 +218,8 @@ const Calc = () => {
         setCookie("newIncome",0);
         setIncome(0);
       } else {
-        setCookie("newIncome",newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
-        setIncome(newIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setCookie("newIncome",newIncome.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        setIncome(newIncome.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " "));
       }
     }
 
