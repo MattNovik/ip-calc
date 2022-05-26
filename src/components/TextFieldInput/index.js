@@ -1,10 +1,10 @@
-import { TextField } from "@mui/material";
-import React from "react";
-import { Controller} from "react-hook-form";
-import { InputAdornment } from "@mui/material";
-import { handleValidateNumbers } from "../../utilsFunctions/utils";
+import { TextField } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Controller} from 'react-hook-form';
+import { InputAdornment } from '@mui/material';
+import { handleValidateNumbers } from '../../utils/utils';
 
-const TextFieldInput = ({name,label,ps,defValue, error, helperText, control, rules}) => {
+const TextFieldInput = ({name, label, ps, defValue, error, helperText, control, rules}) => {
   return (
       <Controller
         name={name}
@@ -25,7 +25,7 @@ const TextFieldInput = ({name,label,ps,defValue, error, helperText, control, rul
             InputProps={{
               inputMode: 'numeric',
               pattern: '[0-9]*',
-              endAdornment: <InputAdornment position="end">{ps}</InputAdornment>,
+              endAdornment: <InputAdornment position='end'>{ps}</InputAdornment>,
             }}
           />
         )}

@@ -1,7 +1,7 @@
-import React from "react";
-import { TextField, MenuItem } from "@mui/material";
-import {  Controller } from "react-hook-form";
-import { OPTIONS } from "../../data/data";
+import React from 'react';
+import { TextField, MenuItem } from '@mui/material';
+import {  Controller } from 'react-hook-form';
+import { OPTIONS } from '../../data/data';
 
 const FormInputDropdown= ({name, control, label, helperText, defValue}) => {
 

@@ -3,7 +3,7 @@ import './index.scss';
 
 const ButtonComp = (props) => {
   return (
-    <Button variant="contained" onClick={props.func}>{props.name}</Button>
+    <Button variant='contained' onClick={props.func}>{props.name}</Button>
   );
 }
 

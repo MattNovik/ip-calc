@@ -16,3 +16,11 @@ export const handleValidateNumbers = (e) => {
     e.target.value = newValueInput;
   }
 }
+
+export const roundAndAddDigits = (num) => {
+  return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+export const addDigits = (num) => {
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}

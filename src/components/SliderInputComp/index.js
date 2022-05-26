@@ -1,6 +1,6 @@
-import React from "react";
-import { Slider } from "@mui/material";
-import { Controller } from "react-hook-form";
+import React from 'react';
+import { Slider } from '@mui/material';
+import { Controller } from 'react-hook-form';
 
 const MARKS = [
   {
@@ -21,7 +21,7 @@ export const SliderInputComp = ({name,control}) => {
         <Slider
           value={value}
           onChange={onChange}
-          valueLabelDisplay="auto"
+          valueLabelDisplay='auto'
           defaultValue={70}
           marks={MARKS}
         />

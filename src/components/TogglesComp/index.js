@@ -3,26 +3,26 @@ import { ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import './index.scss';
 
-const TogglesComp = ({toggleFunc}) => {
-  const [typeCredit, setTypeCredit] = useState('ann');
+const TogglesComp = ({toggleF}) => {
+  const [creditType, setCreditType] = useState('ann');
 
   const handleChange = (
     event,
-    newTypeCredit,
+    newCreditType,
   ) => {
-    setTypeCredit(newTypeCredit);
-    toggleFunc(newTypeCredit);
+    setCreditType(newCreditType);
+    toggleF(newCreditType);
   };
 
   return (
     <ToggleButtonGroup
-      color="primary"
-      value={typeCredit}
+      color='primary'
+      value={creditType}
       exclusive
       onChange={handleChange}
     >
-      <ToggleButton value="ann">Аннуитетный</ToggleButton>
-      <ToggleButton value="dif">Дифференциальный</ToggleButton>
+      <ToggleButton value='ann'>Аннуитетный</ToggleButton>
+      <ToggleButton value='dif'>Дифференциальный</ToggleButton>
     </ToggleButtonGroup>
   );
 }

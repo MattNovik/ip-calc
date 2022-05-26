@@ -1,5 +1,9 @@
+@import 'loaders.css/src/animations/line-scale.scss';
+
 .App {
+  height: 100%;
   display: flex;
+  flex-grow: 1;
   justify-content: center;
   flex-direction: column;
   text-align: center;
@@ -8,7 +12,13 @@
 
 @media (max-width: 1024px) {
   .App {
-    padding: 20px 20px;
+    padding: 20px 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .App {
+    padding: 20px 60px;
   }
 }
 
