@@ -1,0 +1,15 @@
+.MuiTextField-root {
+  width: 100%;
+}
+
+.slider-input-wrapper {
+  position: relative;
+
+  .MuiSlider-colorPrimary {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    //transform: translate(0, 40%);
+    margin: 0;
+  }
+}

@@ -6,6 +6,7 @@ import FormInputDropdown from '../FormInputDropdown';
 import TextFieldInput from '../TextFieldInput';
 import debounce from 'debounce';
 import { addDigits } from '../../utils/utils';
+import { MARKSCREDITTERM, MARKSDOWNPAYMENT, MARKSREALESTATECOST} from '../../data/data';
 
 const FormCalculator = ({onSubmitForm, creditType}) => {
   const { handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
@@ -32,8 +33,10 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
     let data = {};
     const values = getValues();
     for (let key in values) {
-      if (key !== 'goal') {
-        values[key] = Number(values[key].replace(/\s+/g, ''));
+      if (typeof values[key] !== 'number') {
+        if (key !== 'goal') {
+          values[key] = Number(values[key].replace(/\s+/g, ''));
+        }
       }
     }
     Object.assign(data, values)
@@ -42,7 +45,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
 
   const inputValidation = () => {
     const values = getValues();
-    return (Number(values['realEstateCost'].replace(/\s+/g, '')) <= Number(values['downPayment'].replace(/\s+/g, ''))) ? false : true;
+    return (typeof values['realEstateCost'] === 'number' ? (values['realEstateCost'] <= values['downPayment'] ? false : true) : (Number(values['realEstateCost'].replace(/\s+/g, '')) <= Number(values['downPayment'].replace(/\s+/g, ''))) ? false : true);
   } // функция проверки обычного инпута числового
 
   const inputMonthValidation = () => {
@@ -50,7 +53,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
     return(Number(values['creditTerm'].replace(/\s+/g, '')) <= 1 || Number(values['creditTerm'].replace(/\s+/g, '')) > 240) ? false : true;
   } // функция проверки поля с месяцем
 
-  const handleCookie = (data) => {
+  const setNewCookie = (data) => {
     for (let key in data) {
       setCookie(key, data[key]);
     }
@@ -67,14 +70,16 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
       const values = getValues();
 
       for (let key in values) {
-        if (key !== 'goal') {
-          values[key] = Number(values[key].replace(/\s+/g, ''));
+        if (typeof values[key] !== 'number') {
+          if (key !== 'goal') {
+            values[key] = Number(values[key].replace(/\s+/g, ''));
+          }
         }
       }
 
       setMainData(mainData => Object.assign(mainData, values));
       onSubmitForm(mainData, creditType);
-      handleCookie(mainData);
+      setNewCookie(mainData);
     }
   } // сбор данных, сохрание cookies и запуск данных дальше в доч. комп (f.onSybmitParent)
    
@@ -93,8 +98,9 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='realEstateCost'
           label='Стоимость недвижимости'
           ps='руб.'
-          sliderName='first-slider'
-          isSliderAdd={true}
+          min={0}
+          max={30000000}
+          marks={MARKSREALESTATECOST}
           defValue={realEstateCostData ?? '30 000 000'}
           rules={{ required: 'Первый взнос не может быть больше', validate: inputValidation, deps: ['downPayment','creditTerm']  }}
           helperText={errors.realEstateCost && errors.realEstateCost.type === 'validate' && 'Первый взнос не может быть больше'}
@@ -105,6 +111,9 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='downPayment'
           label='Первоначальный взнос'
           ps='руб.'
+          min={0}
+          max={30000000}
+          marks={MARKSDOWNPAYMENT}
           defValue={downPaymentData ?? '10 000 000'}
           rules={{ required: 'Первый взнос не может быть больше', validate: inputValidation, deps: ['realEstateCost','creditTerm'] }}
           helperText={errors.downPayment && errors.downPayment.type === 'validate' && 'Первый взнос не может быть больше'}
@@ -115,6 +124,9 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='creditTerm'
           label='Срок кредита'
           ps='мес.'
+          min={1}
+          max={240}
+          marks={MARKSCREDITTERM}
           defValue={creditTermData ?? '30'}
           rules={{ required: 'Срок кредита не может быть меньше 1 мес', validate: inputMonthValidation, deps: ['realEstateCost','downPayment'] }}
           helperText={errors.creditTerm && errors.creditTerm.type === 'validate' && 'Срок кредита не может быть меньше 1 и больше 240'}

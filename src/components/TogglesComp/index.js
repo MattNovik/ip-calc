@@ -16,13 +16,21 @@ const TogglesComp = ({toggleF}) => {
 
   return (
     <ToggleButtonGroup
-      color='primary'
+      color='info'
       value={creditType}
       exclusive
       onChange={handleChange}
     >
-      <ToggleButton value='ann'>Аннуитетный</ToggleButton>
-      <ToggleButton value='dif'>Дифференциальный</ToggleButton>
+      <ToggleButton value='ann'>Аннуитетный
+        <div className='button-helper'>
+          Some info about credit type
+        </div>
+      </ToggleButton>
+      <ToggleButton value='dif'>Дифференциальный
+        <div className='button-helper'>
+          Some info about credit type
+        </div>
+      </ToggleButton>
     </ToggleButtonGroup>
   );
 }

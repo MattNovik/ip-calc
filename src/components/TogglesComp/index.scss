@@ -4,3 +4,43 @@
     flex-direction: column;
   }
 }
+
+button {
+  position: relative;
+
+  div {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background-color: #000;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease;
+    color: #fff;
+    box-sizing: border-box;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #000;
+    }
+  }
+  
+  &:hover {
+    div {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

@@ -45,3 +45,36 @@ export const OPTIONS = [
     value: "7",
   },
 ];
+
+export const MARKSREALESTATECOST = [
+  {
+    value: 0,
+    label: '0',
+  },
+  {
+    value: 30000000,
+    label: '30 млн',
+  },
+];
+
+export const MARKSDOWNPAYMENT = [
+  {
+    value: 0,
+    label: '0',
+  },
+  {
+    value: 30000000,
+    label: '30 млн.',
+  },
+];
+
+export const MARKSCREDITTERM = [
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 240,
+    label: '240 мес.',
+  },
+];

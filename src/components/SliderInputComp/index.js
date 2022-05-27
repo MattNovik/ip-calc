@@ -1,6 +1,5 @@
 import React from 'react';
 import { Slider } from '@mui/material';
-import { Controller } from 'react-hook-form';
 
 const MARKS = [
   {
@@ -13,18 +12,13 @@ const MARKS = [
   },
 ];
 
-export const SliderInputComp = ({name,control}) => {
-  return <Controller
-      name={name}
-      control={control}
-      render={({ value, onChange }) => (
-        <Slider
-          value={value}
-          onChange={onChange}
-          valueLabelDisplay='auto'
-          defaultValue={70}
-          marks={MARKS}
-        />
-      )}
+export const SliderInputComp = () => {
+  return(
+    <Slider
+      size="small"
+      defaultValue={70}
+      aria-label="Small"
+      valueLabelDisplay="auto"
     />
+  );
 };
