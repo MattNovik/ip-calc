@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
 import FormInputDropdown from '../FormInputDropdown';
 import TextFieldInput from '../TextFieldInput';
@@ -12,6 +12,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
   const { handleSubmit, getValues, control, formState: { errors }} = useForm({mode: 'all', reValidateMode: 'onBlur',});
   const [mainData, setMainData] = useState({});
   const [cookies, setCookie] = useCookies([]);
+  const [callFunction, setCallFunction] = useState(false);
   let realEstateCostData = cookies.realEstateCost;
   let downPaymentData = cookies.downPayment;
   let creditTermData = cookies.creditTerm;
@@ -50,7 +51,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
 
   const inputMonthValidation = () => {
     const values = getValues();
-    return(Number(values['creditTerm'].replace(/\s+/g, '')) <= 1 || Number(values['creditTerm'].replace(/\s+/g, '')) > 240) ? false : true;
+    return(typeof values['creditTerm'] === 'number' ? ((values['creditTerm'] <= 1 || values['creditTerm'] >= 241) ? false : true) : (Number(values['creditTerm'].replace(/\s+/g, '')) <= 1 || Number(values['creditTerm'].replace(/\s+/g, '')) >= 241) ? false : true);
   } // функция проверки поля с месяцем
 
   const setNewCookie = (data) => {
@@ -76,6 +77,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           }
         }
       }
+      console.log('change form')
 
       setMainData(mainData => Object.assign(mainData, values));
       onSubmitForm(mainData, creditType);
@@ -124,7 +126,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='creditTerm'
           label='Срок кредита'
           ps='мес.'
-          min={1}
+          min={2}
           max={240}
           marks={MARKSCREDITTERM}
           defValue={creditTermData ?? '30'}

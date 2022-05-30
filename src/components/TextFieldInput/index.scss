@@ -7,9 +7,13 @@
 
   .MuiSlider-colorPrimary {
     position: absolute;
-    bottom: 0;
+    top: 56px;
     left: 0;
-    //transform: translate(0, 40%);
+    transform: translate(0, -50%);
     margin: 0;
+  }
+
+  .MuiSlider-rail {
+
   }
 }

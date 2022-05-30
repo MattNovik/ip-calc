@@ -70,8 +70,8 @@ export const MARKSDOWNPAYMENT = [
 
 export const MARKSCREDITTERM = [
   {
-    value: 1,
-    label: '1',
+    value: 2,
+    label: '2',
   },
   {
     value: 240,
