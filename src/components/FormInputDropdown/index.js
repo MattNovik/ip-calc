@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, MenuItem } from '@mui/material';
 import {  Controller } from 'react-hook-form';
 import { OPTIONS } from '../../data/data';
 
 const FormInputDropdown= ({name, control, label, helperText, defValue}) => {
+  const [startValue, setStartValue] = useState(defValue);
 
   const generateSelectOptions = () => {
     return OPTIONS.map((option) => {
@@ -18,16 +19,17 @@ const FormInputDropdown= ({name, control, label, helperText, defValue}) => {
   return <Controller
       control={control}
       name={name}
-      defaultValue={defValue}
+      defaultValue={startValue}
       render={({ field: { onChange, value } }) => (
         <TextField
           select
           helperText={helperText}
           label={label}
           onChange={(e) => {
+            setStartValue(e.target.value);
             onChange(e);
           }}
-          value={value}>
+          value={startValue}>
             {generateSelectOptions()}
         </TextField>
       )}

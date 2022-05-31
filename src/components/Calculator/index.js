@@ -36,6 +36,9 @@ const Calculator = () => {
     if (getCookie('newSummToPay') !== '') {
       setSummToPay(getCookie('newSummToPay'));
     }
+    if (getCookie('newTaxes') !== '') {
+      setTaxes(getCookie('newTaxes'));
+    }
     if (getCookie('newPercent') !== '') {
       setPercent(getCookie('newPercent'));
     }
@@ -52,7 +55,7 @@ const Calculator = () => {
       setCreditType(getCookie('newCreditType'));
     }
     gsap.registerPlugin(ScrollToPlugin);
-  },[]);
+  });
 
   const createDataForShedule = (data, type) => {
     let newData = new Date();
@@ -147,7 +150,7 @@ const Calculator = () => {
     setMainData(data);
 
     let newCreditTerm = data.creditTerm;
-    setCookie('newCreditTerm',newCreditTerm);
+    setCookie('newCreditTerm', newCreditTerm);
 
     let newCreditSumm = (data.realEstateCost-data.downPayment);
     if (newCreditSumm < 0) {
@@ -164,16 +167,33 @@ const Calculator = () => {
       let mainMonthPay;
       let i = newCreditTerm;
       let result = [];
+      let newSummToPay = 0;
+      let overpayment = 0;
 
       while (i > 0) {
         let percentCredit = mainCreditSumm*newPercent/100/12;
         mainCreditSumm = mainCreditSumm - mainPerc;
         mainMonthPay = mainPerc + percentCredit;
         result.push(mainMonthPay.toFixed(0));
+        newSummToPay = newSummToPay + mainMonthPay;
+        overpayment = overpayment + percentCredit;
 
         i--;
       }
-      
+
+      let newTaxes = (data.realEstateCost*13/100 >= 260000 ? 260000 : data.realEstateCost*13/100) + (overpayment*13/100 >= 390000 ? 390000 : overpayment*13/100);
+      if (newSummToPay < 0) {
+        setCookie('newSummToPay', 0);
+        setCookie('newTaxes',0);
+        setTaxes(0);
+        setSummToPay(0);
+      } else {
+        setCookie('newSummToPay', roundAndAddDigits(newSummToPay));
+        setCookie('newTaxes', roundAndAddDigits(Number(newTaxes)));
+        setTaxes(roundAndAddDigits(Number(newTaxes)));
+        setSummToPay(roundAndAddDigits(newSummToPay));
+      }
+
       if (result[0] < 0 || result[result.length-1] < 0) {
         setCookie('newMonthPay', 0);
         setMonthPay(0);
@@ -191,7 +211,7 @@ const Calculator = () => {
         setIncome(roundAndAddDigits(newIncome));
       }
     } else {
-      let newMonthPay = (data.realEstateCost-data.downPayment)*(percent/12/100 + percent/12/100/(Math.pow((1 + percent/12/100), newCreditTerm) - 1));
+      let newMonthPay = (data.realEstateCost-data.downPayment)*(newPercent/12/100 + newPercent/12/100/(Math.pow((1 + newPercent/12/100), newCreditTerm) - 1));
       if (newMonthPay < 0) {
         setCookie('newMonthPay', 0);
         setMonthPay(0);
@@ -201,11 +221,16 @@ const Calculator = () => {
       }
 
       let newSummToPay = newMonthPay * newCreditTerm;
+      let newTaxes = (data.realEstateCost*13/100 >= 260000 ? 260000 : data.realEstateCost*13/100) + ((newSummToPay-data.realEstateCost+data.downPayment)*13/100 >= 390000 ? 390000 : (newSummToPay-data.realEstateCost+data.downPayment)*13/100);
       if (newSummToPay < 0) {
         setCookie('newSummToPay', 0);
+        setCookie('newTaxes',0);
+        setTaxes(0);
         setSummToPay(0);
       } else {
         setCookie('newSummToPay', roundAndAddDigits(newSummToPay));
+        setCookie('newTaxes', roundAndAddDigits(Number(newTaxes)));
+        setTaxes(roundAndAddDigits(Number(newTaxes)));
         setSummToPay(roundAndAddDigits(newSummToPay));
       }
 

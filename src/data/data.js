@@ -52,8 +52,8 @@ export const MARKSREALESTATECOST = [
     label: '0',
   },
   {
-    value: 30000000,
-    label: '30 млн',
+    value: 100000000,
+    label: '100 млн',
   },
 ];
 
@@ -63,8 +63,8 @@ export const MARKSDOWNPAYMENT = [
     label: '0',
   },
   {
-    value: 30000000,
-    label: '30 млн.',
+    value: 100000000,
+    label: '100 млн.',
   },
 ];
 

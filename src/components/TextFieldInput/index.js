@@ -5,25 +5,25 @@ import { InputAdornment } from '@mui/material';
 import { handleValidateNumbers } from '../../utils/utils';
 import { Slider } from '@mui/material';
 import { addDigits } from '../../utils/utils';
+import { throttle, debounce } from 'throttle-debounce';
 import './index.scss';
 
-const TextFieldInput = ({name, label, ps, defValue, error, helperText, control, rules, min, max, marks}) => {
+const TextFieldInput = ({updateSliderValue, name, label, ps, defValue, error, helperText, control, rules, min, max, marks}) => {
   const [value, setValue] = useState(defValue);
   const [textFieldValue, setTextFieldValue] = useState(addDigits(typeof value === 'number' ? String(value).replace(/\s+/g, '') : value.replace(/\s+/g, '')));
 
-
   useEffect(() => {
     setTextFieldValue(addDigits(typeof value === 'number' ? String(value).replace(/\s+/g, '') : value.replace(/\s+/g, '')));
-  })
+  }, [value])
 
   const handleSliderChange = (e, newValue) => {
+    updateSliderValue(newValue);
     setValue(newValue);
-  };
-
+  }
 
   const handleInputChange = (e) => {
     setValue(typeof e.target.value === 'number' ? e.target.value : Number(e.target.value.replace(/\s+/g, '')));
-  };
+  }
 
   return (
       <Controller
@@ -38,7 +38,6 @@ const TextFieldInput = ({name, label, ps, defValue, error, helperText, control, 
                 handleValidateNumbers(e);
                 handleInputChange(e)
                 onChange(e);
-                console.log('change inp')
               }}
               error={error ?? false}
               value={textFieldValue}
@@ -56,7 +55,6 @@ const TextFieldInput = ({name, label, ps, defValue, error, helperText, control, 
               onChange={(e) => {
                 handleSliderChange(e, typeof e.target.value === 'number' ? e.target.value : Number(e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '')));
                 onChange(e);
-                console.log('change slider');
               }}
               aria-labelledby="input-slider"
               min={min}

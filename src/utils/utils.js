@@ -24,3 +24,13 @@ export const roundAndAddDigits = (num) => {
 export const addDigits = (num) => {
   return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
+
+export const convertArrayToNumbers = (Array) => {
+  for (let key in Array) {
+    if (typeof Array[key] !== 'number') {
+      if (key !== 'goal') {
+        Array[key] = Number(Array[key].replace(/\s+/g, ''));
+      }
+    }
+  }
+}
