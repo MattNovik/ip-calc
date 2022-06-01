@@ -28,7 +28,7 @@
 
   &__info {
     display: grid;
-    grid-template-columns: repeat(3, minmax(100px, max-content));
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr 1fr ;
     flex-wrap: wrap;
     row-gap: 20px;
@@ -37,7 +37,7 @@
     font-style: normal;
     color: #000000;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
       grid-template-columns: 1fr;
       grid-template-rows: auto;
     }

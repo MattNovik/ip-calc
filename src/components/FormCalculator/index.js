@@ -37,7 +37,6 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
       creditTermData = addDigits(creditTermData.replace(/\s+/g, ''));
     }
   }
-
   
   const setNewCookie = (data) => {
     for (let key in data) {
@@ -92,6 +91,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='realEstateCost'
           label='Стоимость недвижимости'
           ps='руб.'
+          step={100000}
           min={0}
           max={100000000}
           marks={MARKSREALESTATECOST}
@@ -106,6 +106,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='downPayment'
           label='Первоначальный взнос'
           ps='руб.'
+          step={10000}
           min={0}
           max={100000000}
           marks={MARKSDOWNPAYMENT}
@@ -120,6 +121,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           name='creditTerm'
           label='Срок кредита'
           ps='мес.'
+          step={1}
           min={2}
           max={240}
           marks={MARKSCREDITTERM}

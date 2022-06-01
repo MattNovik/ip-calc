@@ -65,75 +65,79 @@ const Calculator = () => {
 
     let shedulePercent = PERCENTLIST[data.goal];
     let sheduleCreditSumm = (data.realEstateCost-data.downPayment);
-    let sheduleCreditTerm = data.creditTerm;
+    if (sheduleCreditSumm >= 0) {
+      let sheduleCreditTerm = data.creditTerm;
 
-    let result = [];
-    let i = sheduleCreditTerm;
-    let mainPerc;
-    let sheduleMonthPay;
-    if (type === 'dif') {
-      mainPerc = sheduleCreditSumm/sheduleCreditTerm;
+      let result = [];
+      let i = sheduleCreditTerm;
+      let mainPerc;
+      let sheduleMonthPay;
+      if (type === 'dif') {
+        mainPerc = sheduleCreditSumm/sheduleCreditTerm;
 
-      while (i > 0) {
-        let percentCredit = sheduleCreditSumm*shedulePercent/100/12;
-        sheduleCreditSumm = sheduleCreditSumm - mainPerc;
-        sheduleMonthPay = mainPerc + percentCredit;
+        while (i > 0) {
+          let percentCredit = sheduleCreditSumm*shedulePercent/100/12;
+          sheduleCreditSumm = sheduleCreditSumm - mainPerc;
+          sheduleMonthPay = mainPerc + percentCredit;
 
-        let nextElem = {};
-        let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
+          let nextElem = {};
+          let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
 
-        if (month === 11) {
-          month = 0;
-          newYear++;
-        } else {
-          month = month + 1;
+          if (month === 11) {
+            month = 0;
+            newYear++;
+          } else {
+            month = month + 1;
+          }
+
+          nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
+          nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
+          nextElem['name'] = dateName;
+          nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
+          nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
+
+          result.push(nextElem);
+
+          i--;
         }
 
-        nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
-        nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
-        nextElem['name'] = dateName;
-        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
-        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
+        setCreditData(result);
+      } else {
+        let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
+        sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
+        mainPerc = sheduleMonthPay;
+        //let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
 
-        result.push(nextElem);
+        while (i > 0) {
+          let percentCredit = sheduleCreditSumm*shedulePercent/12/100;
+          mainPerc = sheduleMonthPay - percentCredit;
+          sheduleCreditSumm = sheduleCreditSumm - mainPerc;
 
-        i--;
+          let nextElem = {};
+          let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
+
+          if (month === 11) {
+            month = 0;
+            newYear++;
+          } else {
+            month = month + 1;
+          }
+
+          nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
+          nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
+          nextElem['name'] = dateName;
+          nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
+          nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
+
+          result.push(nextElem);
+
+          i--;
+        }
+
+        setCreditData(result);
       }
-
-      setCreditData(result);
     } else {
-      let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
-      sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
-      mainPerc = sheduleMonthPay;
-      //let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
-
-      while (i > 0) {
-        let percentCredit = sheduleCreditSumm*shedulePercent/12/100;
-        mainPerc = sheduleMonthPay - percentCredit;
-        sheduleCreditSumm = sheduleCreditSumm - mainPerc;
-
-        let nextElem = {};
-        let dateName = `${ MONTHMASS[month] + ' ' + newYear}`;
-
-        if (month === 11) {
-          month = 0;
-          newYear++;
-        } else {
-          month = month + 1;
-        }
-
-        nextElem['rub'] = `${mainPerc.toFixed(0) + ' '}`;
-        nextElem['rubDop'] = `${percentCredit.toFixed(0) + ' '}`;
-        nextElem['name'] = dateName;
-        nextElem['summLeft'] = `${Math.abs(sheduleCreditSumm.toFixed(0)) + ' '}`;
-        nextElem['monthPay'] = `${sheduleMonthPay.toFixed(0) + ' '}`
-
-        result.push(nextElem);
-
-        i--;
-      }
-
-      setCreditData(result);
+      setCreditData([]);
     }
   }
 

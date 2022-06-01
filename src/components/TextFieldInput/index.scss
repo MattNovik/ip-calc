@@ -5,6 +5,12 @@
 .slider-input-wrapper {
   position: relative;
 
+  @media (max-width: 767px) {
+    span {
+      display: none;
+    }
+  }
+ 
   .MuiSlider-colorPrimary {
     position: absolute;
     top: 56px;

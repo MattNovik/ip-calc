@@ -41,7 +41,7 @@
   &__wrapper-name {
     position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     column-gap: 10px;
 
     svg {
