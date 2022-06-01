@@ -43,15 +43,18 @@ const TextFieldInput = ({updateSliderValue, name, label, ps, defValue, error, he
                 handleInputChange(e)
                 onChange(e);
               }}
+              inputMode='numeric'
               error={error ?? false}
               value={textFieldValue}
               label={label}
               maxLength='15'
               helperText={helperText ?? false}
               InputProps={{
-                inputMode: 'numeric',
-                pattern: '[0-9]*',
                 endAdornment: <InputAdornment position='end'>{ps}</InputAdornment>,
+              }}
+              inputProps={{
+                inputMode: 'numeric',
+                pattern: '[0-9]*'
               }}
             />
             <Slider

@@ -21,7 +21,7 @@
       padding: 20px 40px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
       padding: 10px 15px;
     }
   }
@@ -36,10 +36,15 @@
     font-family: 'Roboto', 'Arial', sans-serif;
     font-style: normal;
     color: #000000;
+    order: 1;
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
       grid-template-rows: auto;
+    }
+
+    @media (max-width: 767px) {
+      order: 2;
     }
   }
 
@@ -47,6 +52,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    order: 3;
 
     & > div {
       order: 2;
@@ -76,6 +82,10 @@
       & > button:last-of-type {
         order: 2;
       }
+    }
+
+    @media (max-width: 767px) {
+      order: 3;
     }
 
     button {

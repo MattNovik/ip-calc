@@ -4,6 +4,11 @@
   font-family: 'Montserrat';
   font-weight: 400;
   color: #000000;
+  order: 2;
+
+  @media (max-width: 767px) {
+    order: 1;
+  }
 
   &__wrapper-box {
     display: grid;
