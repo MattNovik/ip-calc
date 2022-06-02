@@ -1,3 +1,15 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 body {
   margin: 0;
   width:100vw;
@@ -10,7 +22,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  font-size: size-desktop(18px);
+
+  @media (max-width: 1399px) {
+    font-size: 16px;
+  }
+ }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

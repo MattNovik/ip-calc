@@ -1,3 +1,15 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .MuiTextField-root {
   width: 100%;
 }
@@ -11,19 +23,41 @@
     }
   }
 
-  .MuiSlider-markLabel {
-    top: 30px;
+  .MuiSlider-markLabel:nth-child(5) {
+    top: size-desktop(20px);
+    transform: translateX(-100%);
+
+    @media (max-width: 1399px) {
+      top: 30px;
+    }
   }
- 
+
+/*   .MuiSlider-markLabel:nth-child(4) {
+    top: size-desktop(20px);
+    transform: translateX(-50%);
+
+    @media (max-width: 1399px) {
+      top: 30px;
+    }
+  } */
+
+  .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: size-desktop(16.5px) size-desktop(14px);
+
+    @media (max-width: 1399px) {
+      padding: 16.5px 14px;
+    }
+  }
+
   .MuiSlider-colorPrimary {
     position: absolute;
-    top: 56px;
+    top: size-desktop(58px);
     left: 0;
     transform: translate(0, -50%);
     margin: 0;
-  }
 
-  .MuiSlider-rail {
-
+    @media (max-width: 1399px) {
+      top: 56px;
+    }
   }
 }

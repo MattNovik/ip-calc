@@ -1,7 +1,23 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .info-element {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: size-desktop(10px);
+
+  @media (max-width: 1399px) {
+    row-gap: 10px;
+  }
 
   @media (max-width: 1024px) {
     width: max-content;
@@ -9,16 +25,23 @@
 
   &__hint {
     position: absolute;
-    width: 140px;
+    width: size-desktop(140px);
     height: auto;
     background-color: lightgray;
-    right: 8px;
-    top: -10px;
+    right: size-desktop(8px);
+    top: size-desktop(-10px);
     transform: translate(50%,-100%);
-    padding: 15px;
+    padding: size-desktop(15px);
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease;
+
+    @media (max-width: 1399px) {
+      width: 140px;
+      right: 8px;
+      top: -10px;
+      padding: 15px
+    }
 
     &::after {
       content: '';
@@ -28,9 +51,15 @@
       transform: translate(-50%, 100%);
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid lightgray;
+      border-left: size-desktop(10px) solid transparent;
+      border-right: size-desktop(10px) solid transparent;
+      border-top: size-desktop(10px) solid lightgray;
+
+      @media (max-width: 1399px) {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid lightgray;
+      }
     }
   }
 
@@ -42,7 +71,11 @@
     position: relative;
     display: flex;
     justify-content: flex-start;
-    column-gap: 10px;
+    column-gap: size-desktop(10px);
+
+    @media (max-width: 1399px) {
+      column-gap: 10px;
+    }
 
     svg {
       position: relative;
@@ -64,18 +97,29 @@
   &__name {
     text-align: left;
     font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: size-desktop(14px);
+    line-height: size-desktop(20px);
     margin: 0;
+
+    @media (max-width:1399px) {
+      font-size: 14px;
+      line-height: 20px;
+    }
   }
 
   &__wrapper-info {
     display: flex;
     justify-content: flex-start;
-    column-gap: 5px;
+    column-gap: size-desktop(5px);
     font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
+    font-size: size-desktop(18px);
+    line-height: size-desktop(26px);
+
+    @media (max-width: 1399px) {
+      column-gap: 5px;
+      font-size: 18px;
+      line-height: 26px;
+    }
 
     @media (max-width: 767px) {
       font-size: 16px;

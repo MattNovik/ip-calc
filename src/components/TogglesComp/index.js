@@ -1,10 +1,19 @@
 import { ToggleButton } from '@mui/material';
 import { ToggleButtonGroup } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { debounce } from 'throttle-debounce';
 import './index.scss';
 
 const TogglesComp = ({toggleF}) => {
   const [creditType, setCreditType] = useState('ann');
+  const [cookies, setCookie] = useCookies([]);
+
+  useEffect(() => {
+    if (cookies.newCreditType !== '') {
+      setCreditType(cookies.newCreditType);
+    }
+  }, [])
 
   const handleChange = (
     event,
@@ -19,7 +28,7 @@ const TogglesComp = ({toggleF}) => {
       color='info'
       value={creditType}
       exclusive
-      onChange={handleChange}
+      onChange={debounce(100, handleChange)}
     >
       <ToggleButton value='ann'>Аннуитетный
         <div className='button-helper'>

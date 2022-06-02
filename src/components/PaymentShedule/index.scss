@@ -1,14 +1,42 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .payment-shedule {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40px 0 0;
+  height: size-desktop(600px);
+  margin: size-desktop(40px) 0 0;
+
+  @media (max-width: 1399px) {
+    margin: 40px 0 0;
+    height: 500px;
+  }
   
   h2 {
-    margin: 35px 0;
+    margin: size-desktop(35px) 0;
+    font-size: size-desktop(26px);
+
+    @media (max-width: 1399px) {
+      margin: 35px 0;
+      font-size: 26px;
+    }
   }
 
   .recharts-responsive-container {
-    max-width: 850px;
+    max-width: size-desktop(850px);
+
+    @media (max-width: 1399px) {
+      max-width: 850px;
+    }
   }
 }

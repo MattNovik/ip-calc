@@ -49,7 +49,7 @@ export const OPTIONS = [
 export const MARKSREALESTATECOST = [
   {
     value: 0,
-    label: '0',
+    
   },
   {
     value: 100000000,
@@ -60,7 +60,7 @@ export const MARKSREALESTATECOST = [
 export const MARKSDOWNPAYMENT = [
   {
     value: 0,
-    label: '0',
+    
   },
   {
     value: 100000000,
@@ -71,10 +71,10 @@ export const MARKSDOWNPAYMENT = [
 export const MARKSCREDITTERM = [
   {
     value: 2,
-    label: '2',
+    
   },
   {
-    value: 240,
-    label: '240 мес.',
+    value: 360,
+    label: '360 мес.',
   },
 ];

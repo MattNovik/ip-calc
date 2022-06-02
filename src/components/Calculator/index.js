@@ -8,7 +8,7 @@ import TablePayment from '../TablePayment';
 import ButtonComp from '../ButtonComp';
 import TogglesComp from '../TogglesComp';
 import { MONTHMASS, PERCENTLIST } from '../../data/data';
-import { getCookie, roundAndAddDigits, addDigits } from '../../utils/utils';
+import { roundAndAddDigits, addDigits } from '../../utils/utils';
 import Loader from 'react-loaders';
 import gsap from 'gsap';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
@@ -29,33 +29,33 @@ const Calculator = () => {
   const [mainData, setMainData] = useState();
 
 
-  useEffect((cookies) => {
-    if (getCookie('newMonthPay') !== '') {
-      setMonthPay(getCookie('newMonthPay'));
+  useEffect(() => {
+    if (cookies.newMonthPay !== '') {
+      setMonthPay(cookies.newMonthPay);
     }
-    if (getCookie('newSummToPay') !== '') {
-      setSummToPay(getCookie('newSummToPay'));
+    if (cookies.newSummToPay !== '') {
+      setSummToPay(cookies.newSummToPay);
     }
-    if (getCookie('newTaxes') !== '') {
-      setTaxes(getCookie('newTaxes'));
+    if (cookies.newTaxes !== '') {
+      setTaxes(cookies.newTaxes);
     }
-    if (getCookie('newPercent') !== '') {
-      setPercent(getCookie('newPercent'));
+    if (cookies.newPercent !== '') {
+      setPercent(cookies.newPercent);
     }
-    if (getCookie('newCreditSumm') !== '') {
-      setCreditSumm(getCookie('newCreditSumm'));
+    if (cookies.newCreditSumm !== '') {
+      setCreditSumm(cookies.newCreditSumm);
     }
-    if (getCookie('newIncome') !== '') {
-      setIncome(getCookie('newIncome'));
+    if (cookies.newIncome !== '') {
+      setIncome(cookies.newIncome);
     } 
-    if (getCookie('newCreditTerm') !== '') {
-      setCreditTerm(getCookie('newCreditTerm'));
+    if (cookies.newCreditTerm !== '') {
+      setCreditTerm(cookies.newCreditTerm);
     }
-    if (getCookie('newCreditType') !== '') {
-      setCreditType(getCookie('newCreditType'));
+    if (cookies.newCreditType !== '') {
+      setCreditType(cookies.newCreditType);
     }
     gsap.registerPlugin(ScrollToPlugin);
-  });
+  }, []);
 
   const createDataForShedule = (data, type) => {
     let newData = new Date();
@@ -106,7 +106,6 @@ const Calculator = () => {
         let commonPerc = Math.pow((1 + shedulePercent/12/100), sheduleCreditTerm);
         sheduleMonthPay = sheduleCreditSumm*(shedulePercent/12/100 + shedulePercent/12/100/(commonPerc - 1));
         mainPerc = sheduleMonthPay;
-        //let overpayment = sheduleMonthPay * sheduleCreditTerm - sheduleCreditSumm;
 
         while (i > 0) {
           let percentCredit = sheduleCreditSumm*shedulePercent/12/100;
@@ -202,8 +201,8 @@ const Calculator = () => {
         setCookie('newMonthPay', 0);
         setMonthPay(0);
       } else {
-        setCookie('newMonthPay', `${'от ' + addDigits(result[0]) + ' руб. до ' + addDigits(result[result.length-1])}`);
-        setMonthPay(`${'от ' + addDigits(result[0]) + ' руб. до ' + addDigits(result[result.length-1])}`);
+        setCookie('newMonthPay', `${'от ' + addDigits(result[result.length-1]) + ' руб. до ' + addDigits(result[0])}`);
+        setMonthPay(`${'от ' + addDigits(result[result.length-1]) + ' руб. до ' + addDigits(result[0])}`);
       }
 
       let newIncome = (Number(result[0])*1.8);
@@ -256,7 +255,7 @@ const Calculator = () => {
     setCreditType(data);
     setCookie('newCreditType', data);
     updateDataCalculation(mainData, data);
-  } // передаю функцию в компоннент TogglesComp для получения значения 
+  } // передаю функцию в компоннент TogglesComp для получения значения типа кредита
 
   return (
     <>
@@ -283,7 +282,7 @@ const Calculator = () => {
       </div>
       {isShedule && <PaymentShedule data={creditData}/>}
       {isTable && <TablePayment data={creditData}/>}
-      <Loader type='line-scale' active />
+      <Loader type='pacman' />
     </>
   )
 }

@@ -1,3 +1,15 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .calculatorForm {
   display: flex;
   flex-direction: column;
@@ -5,6 +17,7 @@
   font-weight: 400;
   color: #000000;
   order: 2;
+  grid-area: form;
 
   @media (max-width: 767px) {
     order: 1;
@@ -12,10 +25,16 @@
 
   &__wrapper-box {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
-    column-gap: 182px;
-    row-gap: 31px;
+    column-gap: size-desktop(182px);
+    row-gap: size-desktop(40px);
+
+    @media (max-width: 1399px) {
+      column-gap: 182px;
+      row-gap: 40px;
+      grid-template-columns: 1fr 1fr;
+    }
 
     @media (max-width: 1199px) {
       column-gap: 50px;
@@ -39,25 +58,62 @@
   align-items: flex-start;
 
   label {
-    margin: 0 0 6px;
-    padding: 0 0 0 15px;
-    font-size: 10px;
-    line-height: 12px;
+    margin: 0 0 size-desktop(6px);
+    padding: 0 0 0 size-desktop(15px);
+    font-size: size-desktop(10px);
+    line-height: size-desktop(12px);
+
+    @media (max-width: 1399px) {
+      margin: 0 0 6px;
+      padding: 0 0 0 15px;
+      font-size: 10px;
+      line-height: 12px;
+    }
   }
 
   input,select {
     box-sizing: border-box;
     width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    font-size: 16px;
-    line-height: 20px;
-    min-height: 42px;
+    padding: size-desktop(10px) size-desktop(15px);
+    border: size-desktop(1px) solid #000000;
+    border-radius: size-desktop(5px);
+    font-size: size-desktop(16px);
+    line-height: size-desktop(20px);
+    min-height: size-desktop(42px);
 
-    option {
+    @media (max-width: 1399px) {
+      padding: 10px 15px;
+      border: 1px solid #000000;
+      border-radius: 5px;
       font-size: 16px;
       line-height: 20px;
+      min-height: 42px;
     }
+
+    option {
+      font-size: size-desktop(16px);
+      line-height: size-desktop(20px);
+
+      @media (max-width: 1399px) {
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+  }
+}
+
+.MuiInputLabel-root.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  transform: translate(size-desktop(14px), size-desktop(-9px)) scale(0.75);
+
+  @media (max-width: 1399px) {
+    transform: translate(14px, -9px) scale(0.75);
+  }
+}
+
+.MuiFormHelperText-root.css-1wc848c-MuiFormHelperText-root {
+  margin-left: size-desktop(14px);
+
+  @media (max-width: 1399px) {
+    margin-left: 14px;
   }
 }

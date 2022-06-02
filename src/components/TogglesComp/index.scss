@@ -1,9 +1,29 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .MuiToggleButtonGroup-root {
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 300px;
+  }
+}
+
+.MuiButtonBase-root.css-1ulh13c-MuiButtonBase-root-MuiToggleButton-root {
+  padding: size-desktop(13px);
+
+  @media (max-width: 1399px) {
+    padding: 11px;
   }
 }
 
@@ -17,13 +37,17 @@ button {
     transform: translate(-50%, -30%);
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: size-desktop(10px);
     background-color: #000;
     visibility: hidden;
     opacity: 0;
     transition: all .3s ease;
     color: #fff;
     box-sizing: border-box;
+
+    @media (max-width: 1399px) {
+      padding: 10px;
+    }
 
     &::after {
       content: '';
@@ -33,9 +57,15 @@ button {
       transform: translate(-50%, 100%);
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid #000;
+      border-left: size-desktop(10px) solid transparent;
+      border-right: size-desktop(10px) solid transparent;
+      border-top: size-desktop(10px) solid #000;
+
+      @media (max-width: 1399px) {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #000;
+      }
     }
   }
   

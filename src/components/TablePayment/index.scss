@@ -1,14 +1,38 @@
+@function size($size-in-px) {
+  @return $size-in-px / 16px * 1rem;
+}
+
+@function size-desktop($size-in-px) {
+  @return $size-in-px / 1400px * 100vw;
+}
+
+@function size-mobile($size-in-px) {
+  @return $size-in-px / 360px * 100vw;
+}
+
 .table-payment {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40px 0 0;
+  margin: size-desktop(40px) 0 0;
+
+  @media (max-width: 1399px) {
+    margin: 40px 0 0;
+  }
 
   h2 {
-    margin: 35px auto;
+    margin: size-desktop(35px) auto;
+
+    @media (max-width: 1399px) {
+      margin: 40px 0 0;
+    }
   }
 
   & > div:first-of-type {
-    max-width: 850px;
+    max-width: size-desktop(850px);
+
+    @media (max-width: 1399px) {
+      margin: 40px 0 0;
+    }
   }
 }

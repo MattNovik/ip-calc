@@ -16,17 +16,18 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
   let realEstateCostData = cookies.realEstateCost;
   let downPaymentData = cookies.downPayment;
   let creditTermData = cookies.creditTerm;
+  let newCreditType = creditType;
 
   useEffect(() => {
     let data = {};
     const values = getValues();
     convertArrayToNumbers(values);
     Object.assign(data, values)
-    onSubmitForm(data);
-    updateCookies(cookies); // достаю данные из cookies если они там есть
+    onSubmitForm(data, newCreditType);
+    updateCookies(); // достаю данные из cookies если они там есть
   }, [sliderValue, cookies]) // Вызываю генерацию таблицы и графика после инициализации
 
-  const updateCookies = (cookies) => {
+  const updateCookies = () => {
     if (realEstateCostData !== undefined) {
       realEstateCostData = addDigits(realEstateCostData.replace(/\s+/g, ''));
     }
@@ -61,7 +62,7 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
 
   const inputMonthValidation = () => {
     const values = getValues();
-    return(typeof values['creditTerm'] === 'number' ? ((values['creditTerm'] <= 1 || values['creditTerm'] >= 241) ? false : true) : (Number(values['creditTerm'].replace(/\s+/g, '')) <= 1 || Number(values['creditTerm'].replace(/\s+/g, '')) >= 241) ? false : true);
+    return(typeof values['creditTerm'] === 'number' ? ((values['creditTerm'] <= 1 || values['creditTerm'] >= 361) ? false : true) : (Number(values['creditTerm'].replace(/\s+/g, '')) <= 1 || Number(values['creditTerm'].replace(/\s+/g, '')) >= 361) ? false : true);
   } // функция проверки поля с месяцем
 
   const handleChange = () => {
@@ -70,13 +71,13 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
       const values = getValues();
       convertArrayToNumbers(values);
       setMainData(mainData => Object.assign(mainData, values));
-      onSubmitForm(mainData, creditType);
+      onSubmitForm(mainData, newCreditType);
       setNewCookie(mainData);
     }
   } // сбор данных, сохрание cookies и запуск данных дальше в доч. комп (f.onSybmitParent)
    
   return (
-    <form className='calculatorForm' onBlur={debounce(500, handleSubmit(handleChange))} onChange={debounce(500, handleSubmit(handleChange))}>
+    <form className='calculatorForm' onBlur={debounce(10, handleSubmit(handleChange))} onChange={debounce(500, handleSubmit(handleChange))}>
       <div className='calculatorForm__wrapper-box'>
         <FormInputDropdown
           name='goal'
@@ -123,11 +124,11 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           ps='мес.'
           step={1}
           min={2}
-          max={240}
+          max={360}
           marks={MARKSCREDITTERM}
           defValue={creditTermData ?? '30'}
           rules={{ required: 'Срок кредита не может быть меньше 1 мес', validate: inputMonthValidation, deps: ['realEstateCost','downPayment'] }}
-          helperText={errors.creditTerm && errors.creditTerm.type === 'validate' && 'Срок кредита не может быть меньше 1 и больше 240'}
+          helperText={errors.creditTerm && errors.creditTerm.type === 'validate' && 'Срок кредита не может быть меньше 1 и больше 340'}
         />
       </div>
     </form>
