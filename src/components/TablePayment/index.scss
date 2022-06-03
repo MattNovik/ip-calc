@@ -44,8 +44,8 @@
 }
 
 .MuiPaper-root {
-  overflow: visible !important; 
-  overflow-x: hidden !important;
+  overflow: auto !important; 
+  //overflow-y: hidden !important;
 }
 
 .MuiTableContainer-root {
