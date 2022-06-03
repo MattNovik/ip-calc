@@ -112,6 +112,9 @@
 
 .MuiFormHelperText-root.css-1wc848c-MuiFormHelperText-root {
   margin-left: size-desktop(14px);
+  position: absolute;
+  bottom: 0;
+  transform: translate(0, 100%);
 
   @media (max-width: 1399px) {
     margin-left: 14px;

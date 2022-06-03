@@ -51,13 +51,14 @@
 
   .MuiSlider-colorPrimary {
     position: absolute;
-    top: size-desktop(58px);
+    bottom: 0;
+    //top: size-desktop(58px);
     left: 0;
-    transform: translate(0, -50%);
+    transform: translate(0, 50%);
     margin: 0;
 
     @media (max-width: 1399px) {
-      top: 56px;
+      //top: 56px;
     }
   }
 }

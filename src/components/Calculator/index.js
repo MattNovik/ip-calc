@@ -30,28 +30,28 @@ const Calculator = () => {
 
 
   useEffect(() => {
-    if (cookies.newMonthPay !== '') {
+    if (cookies.newMonthPay !== undefined) {
       setMonthPay(cookies.newMonthPay);
     }
-    if (cookies.newSummToPay !== '') {
+    if (cookies.newSummToPay !== undefined) {
       setSummToPay(cookies.newSummToPay);
     }
-    if (cookies.newTaxes !== '') {
+    if (cookies.newTaxes !== undefined) {
       setTaxes(cookies.newTaxes);
     }
-    if (cookies.newPercent !== '') {
+    if (cookies.newPercent !== undefined) {
       setPercent(cookies.newPercent);
     }
-    if (cookies.newCreditSumm !== '') {
+    if (cookies.newCreditSumm !== undefined) {
       setCreditSumm(cookies.newCreditSumm);
     }
-    if (cookies.newIncome !== '') {
+    if (cookies.newIncome !== undefined) {
       setIncome(cookies.newIncome);
     } 
-    if (cookies.newCreditTerm !== '') {
+    if (cookies.newCreditTerm !== undefined) {
       setCreditTerm(cookies.newCreditTerm);
     }
-    if (cookies.newCreditType !== '') {
+    if (cookies.newCreditType !== undefined) {
       setCreditType(cookies.newCreditType);
     }
     gsap.registerPlugin(ScrollToPlugin);

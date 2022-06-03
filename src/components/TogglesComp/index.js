@@ -10,7 +10,7 @@ const TogglesComp = ({toggleF}) => {
   const [cookies, setCookie] = useCookies([]);
 
   useEffect(() => {
-    if (cookies.newCreditType !== '') {
+    if (cookies.newCreditType !== undefined) {
       setCreditType(cookies.newCreditType);
     }
   }, [])
