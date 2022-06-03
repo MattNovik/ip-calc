@@ -21,6 +21,19 @@
     margin: 40px 0 0;
     height: 500px;
   }
+
+  &__wrapper {
+    max-width: size-desktop(850px);
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: 1399px) {
+      max-width: 850px;
+      width: 100%;
+      height: 100%;
+      max-height: 400px;
+    }
+  }
   
   h2 {
     margin: size-desktop(35px) 0;
