@@ -6,14 +6,12 @@ import Error404 from './components/404';
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Calculator />} />
-          <Route element={<Error404 />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Calculator />} />
+        <Route element={<Error404 />} />
+      </Route>
+    </Routes>
   );
 }
 

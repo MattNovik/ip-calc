@@ -10,6 +10,30 @@
   @return $size-in-px / 360px * 100vw;
 }
 
+:root[data-theme="dark"] {
+  .calculator {
+    &__info {
+      color: #F5F5F5;
+    }
+    
+    &__github-link {
+      color: #000;
+      background-color: #fff;
+
+      svg {
+        color:#000;
+      }
+    }
+
+    &__wrapper-name {
+      .MuiButtonBase-root {
+        background-color: #F5F5F5;
+      }
+    }
+  }
+}
+
+
 .calculator {
   margin: 0 auto;
   width: 100%;
@@ -39,6 +63,10 @@
 
     @media (max-width: 1399px) {
       margin: 0 0 20px;
+    }
+
+    @media (max-width: 949px) {
+      margin-bottom: 0;
     }
   }
   
@@ -102,6 +130,42 @@
     @media (max-width: 767px) {
       grid-template-columns: 1fr;
       order: 2;
+    }
+  }
+
+  &__wrapper-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 size-desktop(20px);
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 949px) {
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 20px;
+    }
+
+    .MuiToggleButtonGroup-root {
+      @media (max-width: 768px) {
+        flex-direction: row !important;
+        width: auto;
+      }
+    }
+  }
+
+  &__github-link {
+    background-color: #000;
+    padding: size-desktop(7px);
+    border-radius: size-desktop(10px);
+
+    @media (max-width: 1399px) {
+      padding: 7px;
+      border-radius: 10px;
     }
   }
 

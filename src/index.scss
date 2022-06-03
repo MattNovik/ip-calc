@@ -10,11 +10,20 @@
   @return $size-in-px / 360px * 100vw;
 }
 
+:root[data-theme="light"] {
+  --background-color: #fafafa;
+}
+
+:root[data-theme="dark"] {
+  --background-color: #191921;
+}
+
 body {
   margin: 0;
   width:100vw;
   overflow-x:hidden;
   height: 100%;
+  background: var(--background-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

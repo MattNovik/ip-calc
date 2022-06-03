@@ -12,6 +12,10 @@ import { roundAndAddDigits, addDigits } from '../../utils/utils';
 import Loader from 'react-loaders';
 import gsap from 'gsap';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ToggleTheme from '../ToggleTheme';
+import { ThemeContext, themes } from '../../contexts/ThemeContext'
 
 const Calculator = () => {
   const [monthPay, setMonthPay] = useState('784 430.98' );
@@ -149,7 +153,7 @@ const Calculator = () => {
 
   const updateDataCalculation = (data, type) => {
     let newPercent = PERCENTLIST[data.goal];
-    setCookie('newPercent',newPercent);
+    setCookie('newPercent', newPercent);
     setPercent(newPercent);
     setMainData(data);
 
@@ -259,32 +263,49 @@ const Calculator = () => {
   } // передаю функцию в компоннент TogglesComp для получения значения типа кредита
 
   return (
-    <>
-      <div className='calculator'>
-        <h1 className='calculator__name'>
-          Ипотечный калькулятор
-        </h1>
-        <div className='calculator__block'>
-          <div className='calculator__info'>
-            <InfoPoint name='Ежемесячный платеж' count={monthPay} type='руб.'/>
-            <InfoPoint name='Сумма кредита'  count={creditSumm} type='руб.' />
-            <InfoPoint name='Ставка по кредиту'  count={percent} type='%' />
-            <InfoPoint name='Общая сумма кредита'  count={summToPay} type='руб.' />
-            <InfoPoint name='Налоговый вычет'  count={taxes} type='руб.' circleInfo='true' hintText='Some info more info about this point' />
-            <InfoPoint name='Необходимый доход'  count={income} type='руб.' />
+    <ThemeContext.Consumer>
+      {({ theme, setTheme }) => (
+        <>
+          <div className='calculator'>
+            <div className='calculator__wrapper-name'>
+              <h1 className='calculator__name'>
+                Ипотечный калькулятор
+              </h1>
+              <ToggleTheme
+                onChangeTheme={(e) => {
+                  if (e.target.value === 'dark' && theme === themes.light) setTheme(themes.dark)
+                  if (e.target.value === 'light' && theme === themes.dark) setTheme(themes.light)
+                }}
+                value={theme === themes.light}
+              />
+              <a target="_blank" className='calculator__github-link' rel="noreferrer" href="https://github.com/MattNovik/mortage-calc">
+                Wanna see repository? Welcome! {    }
+                <FontAwesomeIcon icon={faGithub} color="#fff" />
+              </a>
+            </div>
+            <div className='calculator__block'>
+              <div className='calculator__info'>
+                <InfoPoint name='Ежемесячный платеж' count={monthPay} type='руб.'/>
+                <InfoPoint name='Сумма кредита'  count={creditSumm} type='руб.' />
+                <InfoPoint name='Ставка по кредиту'  count={percent} type='%' />
+                <InfoPoint name='Общая сумма кредита'  count={summToPay} type='руб.' />
+                <InfoPoint name='Налоговый вычет'  count={taxes} type='руб.' circleInfo='true' hintText='Some info more info about this point' />
+                <InfoPoint name='Необходимый доход'  count={income} type='руб.' />
+              </div>
+              <FormCalculator onSubmitForm={updateDataCalculation} creditType={creditType}/>
+              <div className='buttons-wrapper'>
+                <ButtonComp name='Показать график платежей' func={() => {setIsShedule(!isShedule); isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#payment-shedule"})}} />
+                <ButtonComp name='Показать таблицу платежей' func={() => { setIsTable(!isTable); isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#table-payment"})}}/>
+                <TogglesComp toggleF={changeCreditType}/>
+              </div>
+            </div>
           </div>
-          <FormCalculator onSubmitForm={updateDataCalculation} creditType={creditType}/>
-          <div className='buttons-wrapper'>
-            <ButtonComp name='Показать график платежей' func={() => {setIsShedule(!isShedule); isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#payment-shedule"})}} />
-            <ButtonComp name='Показать таблицу платежей' func={() => { setIsTable(!isTable); isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#table-payment"})}}/>
-            <TogglesComp toggleF={changeCreditType}/>
-          </div>
-        </div>
-      </div>
-      {isShedule && <PaymentShedule data={creditData}/>}
-      {isTable && <TablePayment data={creditData}/>}
-      <Loader type='pacman' />
-    </>
+          {isShedule && <PaymentShedule data={creditData}/>}
+          {isTable && <TablePayment data={creditData}/>}
+          <Loader type='pacman' />
+        </>
+      )}
+    </ThemeContext.Consumer>
   )
 }
 
