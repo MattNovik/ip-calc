@@ -42,3 +42,12 @@
 .MuiTableCell-root {
   white-space: nowrap;
 }
+
+.MuiPaper-root {
+  overflow: visible !important; 
+  overflow-x: hidden !important;
+}
+
+.MuiTableContainer-root {
+  overflow-x: visible !important;
+}

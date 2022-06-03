@@ -72,6 +72,7 @@ const Calculator = () => {
       let i = sheduleCreditTerm;
       let mainPerc;
       let sheduleMonthPay;
+
       if (type === 'dif') {
         mainPerc = sheduleCreditSumm/sheduleCreditTerm;
 

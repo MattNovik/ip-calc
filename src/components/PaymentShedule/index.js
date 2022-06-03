@@ -17,7 +17,7 @@ const PaymentShedule = (data) => {
       <ResponsiveContainer width='100%' height='100%'>
         <AreaChart
             width={500}
-            height={300}
+            height={400}
             data={sheduleData.data}
             margin={{
               top: 10,
@@ -28,7 +28,7 @@ const PaymentShedule = (data) => {
           >
             <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey='name' />
-            <YAxis width={longestLabelLength * 10} dataKey='rub' tickFormatter={tick => {return tick.toLocaleString()}} />
+            <YAxis width={longestLabelLength * 10} tickFormatter={tick => {return tick.toLocaleString()}} />
             <Legend iconType='circle'/>
             <Tooltip formatter={(value) => new Intl.NumberFormat().format(value)}/>
             <Area type='monotone' name='Погашение долга' dataKey='rub' stackId='1' stroke='#8884d8' fill='#8884d8' unit=' руб.'/>

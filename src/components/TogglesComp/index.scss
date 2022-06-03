@@ -11,8 +11,12 @@
 }
 
 .MuiToggleButtonGroup-root {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+
   @media (max-width: 768px) {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     width: 100%;
     max-width: 300px;
@@ -32,9 +36,9 @@ button {
 
   div {
     position: absolute;
-    top: -100%;
+    top: -10px;
     left: 50%;
-    transform: translate(-50%, -30%);
+    transform: translate(-50%, -100%);
     width: 100%;
     height: auto;
     padding: size-desktop(10px);
@@ -75,4 +79,8 @@ button {
       opacity: 1;
     }
   }
+}
+
+.button-helper {
+  text-transform: none;
 }

@@ -13,6 +13,7 @@ const TogglesComp = ({toggleF}) => {
     if (cookies.newCreditType !== undefined) {
       setCreditType(cookies.newCreditType);
     }
+    //toggleF(creditType);
   }, [])
 
   const handleChange = (
@@ -32,12 +33,12 @@ const TogglesComp = ({toggleF}) => {
     >
       <ToggleButton value='ann'>Аннуитетный
         <div className='button-helper'>
-          Some info about credit type
+        Общая сумма ежемесячных выплат остается неизменной до конца срока кредитования
         </div>
       </ToggleButton>
-      <ToggleButton value='dif'>Дифференциальный
+      <ToggleButton value='dif'>Дифференцированный
         <div className='button-helper'>
-          Some info about credit type
+        C первого месяца и до конца срока кредита суммы выплат уменьшается
         </div>
       </ToggleButton>
     </ToggleButtonGroup>
