@@ -32,7 +32,7 @@
     max-width: size-desktop(850px);
 
     @media (max-width: 1399px) {
-      margin: 40px 0 0;
+      max-width: 850px;
     }
   }
 }
