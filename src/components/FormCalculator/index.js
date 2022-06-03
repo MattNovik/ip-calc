@@ -97,8 +97,8 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           max={100000000}
           marks={MARKSREALESTATECOST}
           defValue={realEstateCostData ?? '30 000 000'}
-          rules={{ required: 'Взнос должен быть меньше стоимости недвижимости', validate: inputValidation, deps: ['downPayment','creditTerm']  }}
-          helperText={errors.realEstateCost && errors.realEstateCost.type === 'validate' && 'Взнос должен быть меньше стоимости недвижимости'}
+          rules={{ required: 'Взнос должен быть меньше', validate: inputValidation, deps: ['downPayment','creditTerm']  }}
+          helperText={errors.realEstateCost && errors.realEstateCost.type === 'validate' && 'Взнос должен быть меньше'}
         />
         <TextFieldInput
           updateSliderValue={updateSliderValue}
@@ -112,8 +112,8 @@ const FormCalculator = ({onSubmitForm, creditType}) => {
           max={100000000}
           marks={MARKSDOWNPAYMENT}
           defValue={downPaymentData ?? '10 000 000'}
-          rules={{ required: 'Взнос должен быть меньше стоимости недвижимости', validate: inputValidation, deps: ['realEstateCost','creditTerm'] }}
-          helperText={errors.downPayment && errors.downPayment.type === 'validate' && 'Взнос должен быть меньше стоимости недвижимости'}
+          rules={{ required: 'Взнос должен быть меньше', validate: inputValidation, deps: ['realEstateCost','creditTerm'] }}
+          helperText={errors.downPayment && errors.downPayment.type === 'validate' && 'Взнос должен быть меньше'}
         />
         <TextFieldInput
           updateSliderValue={updateSliderValue}

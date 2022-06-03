@@ -102,21 +102,21 @@
   }
 }
 
-.MuiInputLabel-root.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
-  transform: translate(size-desktop(14px), size-desktop(-9px)) scale(0.75);
+.MuiInputLabel-root {
+  transform: translate(size-desktop(14px), size-desktop(-9px)) scale(0.75) !important;
 
   @media (max-width: 1399px) {
-    transform: translate(14px, -9px) scale(0.75);
+    transform: translate(14px, -9px) scale(0.75) !important;
   }
 }
 
-.MuiFormHelperText-root.css-1wc848c-MuiFormHelperText-root {
-  margin-left: size-desktop(14px);
-  position: absolute;
-  bottom: 0;
-  transform: translate(0, 100%);
+.MuiFormHelperText-root {
+  margin-left: size-desktop(14px) !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  transform: translate(0, 130%) !important;
 
   @media (max-width: 1399px) {
-    margin-left: 14px;
+    margin-left: 14px !important;
   }
 }

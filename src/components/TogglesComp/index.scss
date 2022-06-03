@@ -19,11 +19,11 @@
   }
 }
 
-.MuiButtonBase-root.css-1ulh13c-MuiButtonBase-root-MuiToggleButton-root {
-  padding: size-desktop(13px);
+.MuiButtonBase-root {
+  padding: size-desktop(13px) !important;
 
   @media (max-width: 1399px) {
-    padding: 11px;
+    padding: 11px !important;
   }
 }
 
