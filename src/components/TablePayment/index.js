@@ -31,7 +31,7 @@ const TablePayment = (data) => {
     <div className='table-payment' id='table-payment'>
       <h2>Таблица платежей по ипотеке</h2>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ maxHeight: 640 }}>
           <Table sx={{ minWidth: 650 }} size='small' stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

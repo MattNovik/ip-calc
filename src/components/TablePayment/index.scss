@@ -14,9 +14,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: size-desktop(500px);
   margin: size-desktop(40px) 0 0;
 
   @media (max-width: 1399px) {
+    height: 500px;
     margin: 40px 0 0;
   }
 
@@ -35,4 +37,8 @@
       max-width: 850px;
     }
   }
+}
+
+.MuiTableCell-root {
+  white-space: nowrap;
 }
