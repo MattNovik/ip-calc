@@ -13,7 +13,6 @@ const TogglesComp = ({toggleF}) => {
     if (cookies.newCreditType !== undefined) {
       setCreditType(cookies.newCreditType);
     }
-    //toggleF(creditType);
   }, [])
 
   const handleChange = (

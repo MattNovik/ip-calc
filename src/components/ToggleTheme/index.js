@@ -6,8 +6,18 @@ import './index.scss';
 const ToggleTheme = ({valueTheme, onChangeTheme}) => {
   const [theme, setTheme] = useState(valueTheme ? valueTheme : 'light');
 
+  const getTheme = () => {
+    const firstTheme = `${window?.localStorage?.getItem('theme')}`;
+    console.log(firstTheme);
+    if (`${window?.localStorage?.getItem('theme')}` === 'dark') return 'dark';
+    const userMedia = window.matchMedia('(prefers-color-scheme: light)')
+    if (userMedia.matches) return 'light';
+
+    return 'light';
+  }
+
   useEffect(() => {
-    setTheme(`${window?.localStorage?.getItem('theme')}`);
+    setTheme(getTheme());
   }, []);
 
   const handleChange = (e) => {

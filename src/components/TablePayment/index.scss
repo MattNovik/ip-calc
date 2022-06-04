@@ -31,11 +31,7 @@
   }
 
   & > div:first-of-type {
-    max-width: size-desktop(850px);
-
-    @media (max-width: 1399px) {
-      max-width: 850px;
-    }
+    max-width: max-content;
   }
 }
 

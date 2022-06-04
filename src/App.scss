@@ -4,6 +4,9 @@ $primary-color: #1976d2;
 @import 'loaders.css/src/animations/pacman.scss';
 
 :root[data-theme="dark"] {
+  
+  $primary-color: #D35100;
+
   .App {
     color: #fff;
   }

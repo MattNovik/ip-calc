@@ -31,6 +31,8 @@ const Calculator = () => {
   const [isShedule, setIsShedule] = useState(false);
   const [creditType, setCreditType]  = useState('ann');
   const [mainData, setMainData] = useState();
+  const [nameTable, setNameTable] = useState('Показать');
+  const [nameShedule, setNameShedule] = useState('Показать');
 
 
   useEffect(() => {
@@ -294,8 +296,18 @@ const Calculator = () => {
               </div>
               <FormCalculator onSubmitForm={updateDataCalculation} creditType={creditType}/>
               <div className='buttons-wrapper'>
-                <ButtonComp name='Показать график платежей' func={() => {setIsShedule(!isShedule); isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#payment-shedule"})}} />
-                <ButtonComp name='Показать таблицу платежей' func={() => { setIsTable(!isTable); isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 1, scrollTo:"#table-payment"})}}/>
+                <ButtonComp name={`${nameShedule + ' график платежей'}`} func={() => {
+                  setIsShedule(!isShedule);
+                  isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:"#payment-shedule"})
+                  if (nameShedule === 'Показать') setNameShedule('Скрыть')
+                  else setNameShedule('Показать')
+                }} />
+                <ButtonComp name={`${nameTable + ' таблицу платежей'}`} func={() => {
+                  setIsTable(!isTable);
+                  isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:"#table-payment"})
+                  if (nameTable === 'Показать') setNameTable('Скрыть')
+                  else setNameTable('Показать')
+                }}/>
                 <TogglesComp toggleF={changeCreditType}/>
               </div>
             </div>

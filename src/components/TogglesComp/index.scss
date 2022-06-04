@@ -10,6 +10,15 @@
   @return $size-in-px / 360px * 100vw;
 }
 
+:root[data-theme="dark"] {
+  .MuiButtonBase-root {
+   background-color: #F5F5F5;
+  }
+  .MuiToggleButton-root.Mui-selected {
+    background-color: #F8A945;
+  }
+}
+
 .MuiToggleButtonGroup-root {
   display: grid !important;
   grid-template-columns: 1fr 1fr;
@@ -36,7 +45,7 @@ button {
 
   div {
     position: absolute;
-    top: -10px;
+    top: size-desktop(-10px);
     left: 50%;
     transform: translate(-50%, -100%);
     width: 100%;
@@ -48,8 +57,10 @@ button {
     transition: all .3s ease;
     color: #fff;
     box-sizing: border-box;
+    z-index: 100;
 
     @media (max-width: 1399px) {
+      top: -10px;
       padding: 10px;
     }
 
