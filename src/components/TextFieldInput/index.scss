@@ -1,5 +1,7 @@
+@use "sass:math";
+
 @function size-desktop($size-in-px) {
-  @return $size-in-px / 1400px * 100vw;
+  @return math.div($size-in-px, 1400px) * 100vw;
 }
 
 .MuiTextField-root {

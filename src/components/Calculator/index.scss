@@ -1,5 +1,7 @@
+@use "sass:math";
+
 @function size-desktop($size-in-px) {
-  @return $size-in-px / 1400px * 100vw;
+  @return math.div($size-in-px, 1400px) * 100vw;
 }
 
 $second-color: #D35100;
@@ -24,13 +26,15 @@ $second-color: #D35100;
         color:#000;
         transition: color .3s ease;
       }
-
-      &:hover {
-        background-color: rgba(245, 245, 245, .7);
-        color: rgba(27, 27, 27, 1);
-  
-        svg {
+      
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: rgba(245, 245, 245, .7);
           color: rgba(27, 27, 27, 1);
+    
+          svg {
+            color: rgba(27, 27, 27, 1);
+          }
         }
       }
     }
@@ -40,8 +44,11 @@ $second-color: #D35100;
         background-color: #F5F5F5;
         transition: background-color .3s ease;
 
-        &:hover {
-          background-color: rgba(245, 245, 245, .7);
+        @media (hover: hover) and (pointer: fine) {
+
+          &:hover {
+            background-color: rgba(245, 245, 245, .7);
+          }
         }
       }
     }

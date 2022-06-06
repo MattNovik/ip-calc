@@ -4,7 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './index.scss';
 
 const ToggleTheme = ({valueTheme, onChangeTheme}) => {
-  const [theme, setTheme] = useState(valueTheme ? valueTheme : 'light');
+  const [theme, setTheme] = useState(valueTheme ? valueTheme : 'dark');
 
   const getTheme = () => {
     const firstTheme = `${window?.localStorage?.getItem('theme')}`;

@@ -1,5 +1,7 @@
+@use "sass:math";
+
 @function size-desktop($size-in-px) {
-  @return $size-in-px / 1400px * 100vw;
+  @return math.div($size-in-px, 1400px) * 100vw;
 }
 
 :root[data-theme="dark"] {
@@ -77,9 +79,11 @@ button {
   }
   
   &:hover {
-    div {
-      visibility: visible;
-      opacity: 1;
+    @media (hover: hover) and (pointer: fine) {
+      div {
+        visibility: visible;
+        opacity: 1;
+      }
     }
   }
 }

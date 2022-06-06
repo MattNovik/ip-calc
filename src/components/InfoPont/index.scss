@@ -1,7 +1,8 @@
-@function size-desktop($size-in-px) {
-  @return $size-in-px / 1400px * 100vw;
-}
+@use "sass:math";
 
+@function size-desktop($size-in-px) {
+  @return math.div($size-in-px, 1400px) * 100vw;
+}
 .info-element {
   display: flex;
   flex-direction: column;
