@@ -1,16 +1,16 @@
 $primary-color: #1976d2;
 $second-color: #D35100;
 
-@use "sass:math";
+@use 'sass:math';
 
-@import "animate.css";
+@import 'animate.css';
 @import 'loaders.css/src/animations/pacman.scss';
 
 @function size-desktop($size-in-px) {
   @return math.div($size-in-px, 1400px) * 100vw;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   .loader-active {
     .pacman {
       & > div:first-of-type,

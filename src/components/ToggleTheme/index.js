@@ -7,8 +7,6 @@ const ToggleTheme = ({valueTheme, onChangeTheme}) => {
   const [theme, setTheme] = useState(valueTheme ? valueTheme : 'dark');
 
   const getTheme = () => {
-    const firstTheme = `${window?.localStorage?.getItem('theme')}`;
-    console.log(firstTheme);
     if (`${window?.localStorage?.getItem('theme')}` === 'dark') return 'dark';
     const userMedia = window.matchMedia('(prefers-color-scheme: light)')
     if (userMedia.matches) return 'light';
@@ -26,7 +24,7 @@ const ToggleTheme = ({valueTheme, onChangeTheme}) => {
 
   return (
     <ToggleButtonGroup
-      color="primary"
+      color='primary'
       value={theme}
       exclusive
       onChange={(e) => {

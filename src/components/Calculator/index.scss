@@ -1,4 +1,4 @@
-@use "sass:math";
+@use 'sass:math';
 
 @function size-desktop($size-in-px) {
   @return math.div($size-in-px, 1400px) * 100vw;
@@ -6,7 +6,7 @@
 
 $second-color: #D35100;
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   .calculator {
     &__block{
       background-color: #191921;

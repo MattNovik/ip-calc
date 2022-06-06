@@ -66,7 +66,7 @@ const TextFieldInput = ({updateSliderValue, name, label, ps, defValue, error, he
               onChangeCommitted={debounce(500, (e,value)=> {
                 handleSliderChange(e, typeof value === 'number' ? value : Number(value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '')))
               })}
-              aria-labelledby="input-slider"
+              aria-labelledby='input-slider'
               step={step}
               min={min}
               max={max}

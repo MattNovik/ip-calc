@@ -5,7 +5,7 @@ $second-color: #D35100;
   text-transform: none;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   .MuiToggleButton-root.MuiButtonBase-root.Mui-selected {
     color: $second-color;
   }

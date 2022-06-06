@@ -1,6 +1,6 @@
 /* export const getCookie = key =>
-document.cookie.split("; ").reduce((total, currentCookie) => {
-  const item = currentCookie.split("=");
+document.cookie.split('; ').reduce((total, currentCookie) => {
+  const item = currentCookie.split('=');
   const storedKey = item[0];
   const storedValue = item[1];
   return key === storedKey 
@@ -9,7 +9,7 @@ document.cookie.split("; ").reduce((total, currentCookie) => {
 },''); */
 
 export const handleValidateNumbers = (e) => {
-  let newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  let newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   if (newValueInput === '') {
     e.target.value = '0';
   } else {
@@ -18,11 +18,11 @@ export const handleValidateNumbers = (e) => {
 }
 
 export const roundAndAddDigits = (num) => {
-  return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
 export const addDigits = (num) => {
-  return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
 export const convertArrayToNumbers = (Array) => {

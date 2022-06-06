@@ -280,9 +280,9 @@ const Calculator = () => {
                 }}
                 value={theme === themes.light}
               />
-              <a target="_blank" className='calculator__github-link' rel="noreferrer" href="https://github.com/MattNovik/mortage-calc">
+              <a target='_blank' className='calculator__github-link' rel='noreferrer' href='https://github.com/MattNovik/mortage-calc'>
                 Wanna see repository? Welcome! {    }
-                <FontAwesomeIcon icon={faGithub} color="#fff" />
+                <FontAwesomeIcon icon={faGithub} color='#fff' />
               </a>
             </div>
             <div className='calculator__block'>
@@ -298,13 +298,13 @@ const Calculator = () => {
               <div className='buttons-wrapper'>
                 <ButtonComp name={`${nameShedule + ' график платежей'}`} func={() => {
                   setIsShedule(!isShedule);
-                  isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:"#payment-shedule"})
+                  isShedule ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:'#payment-shedule'})
                   if (nameShedule === 'Показать') setNameShedule('Скрыть')
                   else setNameShedule('Показать')
                 }} />
                 <ButtonComp name={`${nameTable + ' таблицу платежей'}`} func={() => {
                   setIsTable(!isTable);
-                  isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:"#table-payment"})
+                  isTable ? gsap.to(window, {duration: 1, scrollTo:{y: 0, x: 0}}) : gsap.to(window, {duration: 2, scrollTo:'#table-payment'})
                   if (nameTable === 'Показать') setNameTable('Скрыть')
                   else setNameTable('Показать')
                 }}/>
