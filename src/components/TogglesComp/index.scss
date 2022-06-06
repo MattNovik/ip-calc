@@ -1,13 +1,5 @@
-@function size($size-in-px) {
-  @return $size-in-px / 16px * 1rem;
-}
-
 @function size-desktop($size-in-px) {
   @return $size-in-px / 1400px * 100vw;
-}
-
-@function size-mobile($size-in-px) {
-  @return $size-in-px / 360px * 100vw;
 }
 
 :root[data-theme="dark"] {
@@ -94,4 +86,9 @@ button {
 
 .button-helper {
   text-transform: none;
+  border-radius: size-desktop(10px);
+
+  @media (max-width: 1399px) {
+    border-radius: 10px;
+  }
 }

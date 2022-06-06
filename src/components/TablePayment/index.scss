@@ -1,13 +1,5 @@
-@function size($size-in-px) {
-  @return $size-in-px / 16px * 1rem;
-}
-
 @function size-desktop($size-in-px) {
   @return $size-in-px / 1400px * 100vw;
-}
-
-@function size-mobile($size-in-px) {
-  @return $size-in-px / 360px * 100vw;
 }
 
 .table-payment {
@@ -26,7 +18,7 @@
     margin: size-desktop(35px) auto;
 
     @media (max-width: 1399px) {
-      margin: 40px 0 0;
+      margin: 40px 0 20px;
     }
   }
 

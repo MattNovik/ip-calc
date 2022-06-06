@@ -1,3 +1,5 @@
+$second-color: #D35100;
+
 .MuiButtonBase-root {
   padding: 5px 10px!important;
   text-transform: none;
@@ -5,6 +7,6 @@
 
 :root[data-theme="dark"] {
   .MuiToggleButton-root.MuiButtonBase-root.Mui-selected {
-    color: #D35100;
+    color: $second-color;
   }
 }

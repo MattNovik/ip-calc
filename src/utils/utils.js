@@ -1,4 +1,4 @@
-export const getCookie = key =>
+/* export const getCookie = key =>
 document.cookie.split("; ").reduce((total, currentCookie) => {
   const item = currentCookie.split("=");
   const storedKey = item[0];
@@ -6,7 +6,7 @@ document.cookie.split("; ").reduce((total, currentCookie) => {
   return key === storedKey 
     ? decodeURIComponent(storedValue) 
     : total;
-},'');
+},''); */
 
 export const handleValidateNumbers = (e) => {
   let newValueInput = e.target.value.replace(/^0+/, '').replace(/[^\d]/g, '').replace(/\s+/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, " ");
