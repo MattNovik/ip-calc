@@ -3,7 +3,11 @@ This is my first project using React. Try to recalculate your mortgage!
 # I've used 
 
 I've create it just for my practice, but hope it would be helpfull for you. 
-Throught creating it I've learned Recharts(https://recharts.org/en-US/), MUI(https://mui.com/) using and customization, React-hook-form (https://react-hook-form.com/) and React-router-dom (https://v5.reactrouter.com/web/guides/quick-start)
+Throught creating it I've learned^ 
+- Recharts(https://recharts.org/en-US/)
+- MUI(https://mui.com/) using and customization
+- React-hook-form (https://react-hook-form.com/)
+- React-router-dom (https://v5.reactrouter.com/web/guides/quick-start)
 
 # Getting Started with Create React App
 
